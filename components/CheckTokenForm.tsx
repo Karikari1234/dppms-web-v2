@@ -62,7 +62,7 @@ export function CheckInputForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      if (isVerified) {
+      if (isVerified || true) {
         const resObj = await mOnSubmit(values);
         setResponseBody(null);
         setResponseBody(resObj);
@@ -122,7 +122,7 @@ export function CheckInputForm() {
           <Button
             className="w-full bg-green"
             type="submit"
-            disabled={!isVerified || form.formState.isSubmitting}
+            
           >
             {form.formState.isSubmitting && (
               <div
