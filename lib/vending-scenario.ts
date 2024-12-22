@@ -13,7 +13,7 @@ export const scenariosData: ScenarioData[] = [
   // Scenario 1
   {
     description:
-      "When this consumer does a vending of 1000 taka for the 1st time in a month , then below charges will be applied. In this case, total 851.41 BDT energy amount will be inserted in meter.",
+      "When this consumer does a vending of 1000 taka for the 1st time in a month , then below charges will be applied. In this case, total 832.92 BDT energy amount will be inserted in meter.",
     charges: [
       {
         chargeDetails: "Demand Charge",
@@ -32,7 +32,7 @@ export const scenariosData: ScenarioData[] = [
       },
       {
         chargeDetails: "Rebate (0.5%)",
-        calculation: ".5/100.5 x (1000 - 47.62 - 40.00)",
+        calculation: "0.5/100.5 x (1000 - 47.62 - 40.00)",
         amount: -4.54,
       },
 
@@ -46,7 +46,7 @@ export const scenariosData: ScenarioData[] = [
   // Scenario 2
   {
     description:
-      "When this consumer does a vending of 1000 taka for the 2nd time in a month , then below charges will be applied. In this case, total 961.81 BDT energy amount will be inserted in meter.",
+      "When this consumer does a vending of 1000 taka for the 2nd time in a month , then below charges will be applied. In this case, total 957.12 BDT energy amount will be inserted in meter.",
     charges: [
       {
         chargeDetails: "Demand Charge",
@@ -65,7 +65,7 @@ export const scenariosData: ScenarioData[] = [
       },
       {
         chargeDetails: "Rebate (0.5%)",
-        calculation: ".5/100.5 x (1000 - 47.62 - 0.00)",
+        calculation: "0.5/100.5 x (1000 - 47.62 - 0.00)",
         amount: -4.74,
       },
 
@@ -79,7 +79,7 @@ export const scenariosData: ScenarioData[] = [
   // Scenario 3
   {
     description:
-      "For example, if any  consumer’s last vending date was: 25th June then the consumer comes to the vending station at: 5th September  and wants to vend 1000 taka, then below charges will be applied. In this case, fixed charges of 3 months(July, August and September) will be deducted. Total 630.62 BDT energy amount will be inserted in meter.",
+      "For example, if any  consumer’s last vending date was: 25th June then the consumer comes to the vending station at: 5th September  and wants to vend 1000 taka, then below charges will be applied. In this case, fixed charges of 3 months(July, August and September) will be deducted. Total 584.52 BDT energy amount will be inserted in meter.",
     charges: [
       {
         chargeDetails: "Demand Charge",
@@ -98,7 +98,7 @@ export const scenariosData: ScenarioData[] = [
       },
       {
         chargeDetails: "Rebate (0.5%)",
-        calculation: ".5/100.5 x (1000 - 47.62 - 120.00)",
+        calculation: "0.5/100.5 x (1000 - 47.62 - 120.00)",
         amount: -4.14,
       },
       {

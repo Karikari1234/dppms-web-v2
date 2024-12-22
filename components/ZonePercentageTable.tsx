@@ -20,28 +20,28 @@ const ZonePercentageTable = () => {
     {
       id: 1,
       name: "Chottogram",
-      totalCustomerNumber: "7,81,767",
+      totalCustomerNumber: "11,03,169",
     },
     {
       id: 2,
-      name: "Comilla",
-      totalCustomerNumber: "2,92,608",
+      name: "Cumilla",
+      totalCustomerNumber: "5,92,441",
     },
     {
       id: 3,
       name: "Mymensingh",
-      totalCustomerNumber: "4,94,891",
+      totalCustomerNumber: "6,41,949",
     },
     {
       id: 4,
       name: "Sylhet",
-      totalCustomerNumber: "2,87,567",
+      totalCustomerNumber: "3,59,856",
     },
   ];
   return (
     <>
       <p className="font-bold ">
-        Zone wise prepaid customer distribution BPDB:
+        Zone Wise Prepaid Customer Distribution of BPDB (Up to August - 2024):
       </p>
       <div className="md:max-w-5/6 md:mx-auto">
         <Table className="">
@@ -68,7 +68,7 @@ const ZonePercentageTable = () => {
             <TableRow>
               <TableCell></TableCell>
               <TableCell className="font-bold">Total</TableCell>
-              <TableCell className="text-center font-bold">18,56,833</TableCell>
+              <TableCell className="text-center font-bold">26,97,415</TableCell>
             </TableRow>
           </TableBody>
         </Table>

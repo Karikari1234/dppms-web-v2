@@ -71,6 +71,102 @@ export const customerData = [
     pv: 4300,
     amt: 2100,
   },
+  {
+    name: "July, 2023",
+    newCustomerNo: 20498,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "August, 2023",
+    newCustomerNo: 25152,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "September, 2023",
+    newCustomerNo: 22151,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "October, 2023",
+    newCustomerNo: 22786,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "November, 2023",
+    newCustomerNo: 35400,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "December, 2023",
+    newCustomerNo: 40414,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "January, 2024",
+    newCustomerNo: 53904,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "February, 2024",
+    newCustomerNo: 100257,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "March, 2024",
+    newCustomerNo: 122138,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "April, 2024",
+    newCustomerNo: 74702,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "May, 2024",
+    newCustomerNo: 119750,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "June, 2024",
+    newCustomerNo: 65538,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "July, 2024",
+    newCustomerNo: 63116,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "August, 2024",
+    newCustomerNo: 29328,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "September, 2024",
+    newCustomerNo: 33266,
+    pv: 4300,
+    amt: 2100,
+  },
+  {
+    name: "October, 2024",
+    newCustomerNo: 45852,
+    pv: 4300,
+    amt: 2100,
+  },
 ];
 
 //77,405

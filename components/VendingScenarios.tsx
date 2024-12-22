@@ -27,7 +27,7 @@ const PrepaidMeterCharges = () => {
       <p className="flex flex-col space-y-4 text-base text-gray-700 md:mb-4 md:flex-row md:space-x-4 md:space-y-0">
         Prepaid meter charges are explained here using an example of Prepaid
         meter consumer of BPDB who is a LT-A Residential Consumer and uses
-        Single Phase Connection and 2 Kwh Sanction Load .
+        Single Phase Connection and 2 KW Sanction Load .
       </p>
       {/* Render scenarios */}
       {scenariosData.map((scenario, index) => (
