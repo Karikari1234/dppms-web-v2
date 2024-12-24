@@ -1,5 +1,5 @@
 import CustomerStats from "@/components/CustomerStats";
-import AboutComponent from "../../components/About";
+import AboutComponent from "@/components/About";
 import ZonePercentageTable from "@/components/ZonePercentageTable";
 import BPDBAdvantagesAndRelatedComponent from "@/components/BPDBAdvantagesAndRelatedComponent";
 import PrepaidMeterCharges from "@/components/VendingScenarios";

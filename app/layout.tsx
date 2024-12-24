@@ -3,6 +3,19 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import { MobileNavbar } from "@/components/MobileNavbar";
+import { dir } from "i18next";
+import { languages } from "@/app/i18n/settings";
+
+export async function generateStaticParams(): Promise<{ lng: string }[]> {
+  return languages.map((lng: string) => ({ lng }));
+}
+
+interface RootLayoutProps {
+  children: React.ReactNode;
+  params: {
+    lng: string;
+  };
+}
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -12,6 +25,7 @@ const poppins = Poppins({
 import Footer from "../components/common/Footer";
 import Header from "@/components/common/Header";
 import MprogressBar from "@/components/common/Progressbar";
+import { I18nextProvider } from "react-i18next";
 
 export const metadata: Metadata = {
   title: "Prepaid Metering System BPDB",
@@ -20,11 +34,10 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+  params: { lng },
+}: RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang={lng} dir={dir(lng)}>
       <head>
         <title>BPDB Prepaid Metering System Website</title>
       </head>
