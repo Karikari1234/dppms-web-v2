@@ -46,6 +46,10 @@ const CustomerInfoTable = (props: Props) => {
               <TableCell>{customerInfo.meterNumber._text}</TableCell>
             </TableRow>
             <TableRow>
+              <TableCell className="text-right">Sanction Load</TableCell>
+              <TableCell>{customerInfo.sanctionLoad._text} kW</TableCell>
+            </TableRow>
+            <TableRow>
               <TableCell className="text-right">Customer Address</TableCell>
               <TableCell>{customerInfo.customerAddress._text}</TableCell>
             </TableRow>
