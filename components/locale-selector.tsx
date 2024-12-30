@@ -16,7 +16,8 @@ const redirectToLocale = (locale: Locale, pathname: string) => {
 
 const LocaleSelector = () => {
   const pathname = usePathname();
-  const [currentLocale, setCurrentLocale] = useState<Locale>("en");
+  // console.log(pathname);
+  const [currentLocale, setCurrentLocale] = useState<Locale>(pathname == "/en" ? 'bn' : 'en');
 
   const localeInfo = {
     en: { native: "English", default: "English" },
