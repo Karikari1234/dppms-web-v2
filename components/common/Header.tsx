@@ -1,8 +1,12 @@
 import { topMenu } from "@/lib/nav-menu";
 import Image from "next/image";
 import Link from "next/link";
+import LocaleSelector from "@/components/locale-selector";
+import { Locale } from "@/i18n";
+import { getTranslation } from "@/lib/i18n/getTranslation";
 
-const Header = () => {
+const Header = async ({ locale }: { locale: Locale }) => {
+  const translation = await getTranslation(locale);
   // const mlocale = useLocale();
   // const t = useTranslations("Header");
   // const router = useRouter();
@@ -29,7 +33,7 @@ const Header = () => {
             ></Image>
           </Link>
           <div className="font-black md:w-1/2 md:text-base">
-            Prepaid Metering System BPDB
+            {translation("header.title")}
           </div>
         </div>
         <div className="md:flex md:flex-row md:items-center md:space-x-4">
@@ -44,7 +48,9 @@ const Header = () => {
                   alt="phone icon"
                 />
               </div>
-              <div className="text-sm">16200</div>
+              <div className="text-sm">
+                {translation("header.phone_number")}
+              </div>
             </div>
           </div>
           <div className="md:mt-2">
@@ -72,6 +78,8 @@ const Header = () => {
               {t("lang")}
             </button>
           </div> */}
+
+          <LocaleSelector />
         </div>
       </div>
       <nav className="bg-green-light md:flex md:items-center md:justify-center">

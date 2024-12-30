@@ -1,3 +1,4 @@
+"use client";
 import FAQAccordion from "@/components/FAQ";
 
 const FAQ = () => {

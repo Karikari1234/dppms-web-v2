@@ -18,7 +18,6 @@ let config = {
 };
 
 const CustomerOrderInformationCard = async ({ x }: { x: any }) => {
-  //const searchParams = useSearchParams);
   const search = x;
   const d: any = await axios
     .request(config)

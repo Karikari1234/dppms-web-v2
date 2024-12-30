@@ -1,3 +1,4 @@
+"use client";
 import TokenPageWrapperComponent from "@/components/TokenPageWrapperComponent";
 
 const ResultWithOnlyMeterNoPage = () => {

@@ -1,3 +1,4 @@
+"use client";
 import ShortCodeTable from "@/components/ShortCodeTable";
 
 const MeterShortCodes = () => {

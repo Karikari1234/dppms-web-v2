@@ -1,3 +1,4 @@
+"use client";
 import { EnergyCalculatorForm } from "@/components/BillCalculator";
 
 const BillCalculator = () => {

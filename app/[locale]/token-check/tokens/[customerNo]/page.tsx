@@ -3,11 +3,7 @@ import TokenInfoTable from "@/components/TokenInformationTable";
 import { fetchCustomerData, fetchLastThreeTokens } from "@/lib/fetchData";
 import { OrderObjectArray } from "@/lib/responseObject/orderObjectArray";
 
-const ResultWithMeterAndCustomerNoPage = async ({
-  params,
-}: {
-  params: { meterNo: string; customerNo: string };
-}) => {
+const ResultWithMeterAndCustomerNoPage = async () => {
   // let orderData: any = await fetchLastThreeTokens(params.meterNo);
   // const customerData = await fetchCustomerData(params.meterNo);
   // //const x = data as OrderObjectArray;
