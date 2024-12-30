@@ -19,9 +19,9 @@ export const metadata: Metadata = {
   description: "Prepaid Metering System BPDB",
 };
 
-export async function generateStaticParams() {
-  return i18nConfig.locales.map((locale: Locale) => ({ locale: locale }));
-}
+// export async function generateStaticParams() {
+//   return i18nConfig.locales.map((locale: Locale) => ({ locale: locale }));
+// }
 
 type Props = {
   children: React.ReactNode;
@@ -32,6 +32,7 @@ type Props = {
 
 export default async function RootLayout({ children, params }: Props) {
   const { locale } = await params;
+  
   return (
     <html lang={locale}>
       <head>
