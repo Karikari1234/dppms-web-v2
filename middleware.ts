@@ -3,6 +3,7 @@ import { Locale, i18nConfig } from "./i18n";
 import { getMatchingLocale } from "./lib/i18n/getMatchingLocale";
 
 export default function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
   // Internationalization.
 
   //to take the files from the publisc folder

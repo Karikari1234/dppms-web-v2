@@ -1,4 +1,4 @@
-import { topMenu } from "@/lib/nav-menu";
+import { MenuItem, topMenu } from "@/lib/nav-menu";
 import Image from "next/image";
 import Link from "next/link";
 import LocaleSelector from "@/components/locale-selector";
@@ -16,13 +16,26 @@ const Header = async ({ locale }: { locale: Locale }) => {
   //     ? router.push(pathname, { locale: "bn" })
   //     : router.push(pathname, { locale: "en" });
   // };
+
+  const topMenu: Array<MenuItem> = [
+    { title: "Home", route: `/${locale}/` },
+    { title: "About", route: `/${locale}/about` },
+    {
+      title: "BPDB Care Point",
+      route: "https://carepoint.bpdbprepaid.gov.bd",
+    },
+    { title: "Calculate Meter Charges", route: `/${locale}/bill-calculator` },
+    { title: "Check Meter Token", route: `/${locale}/token-check` },
+    { title: "FAQ", route: `/${locale}/faq` },
+  ];
+
   return (
     <header className="hidden md:mx-auto md:mb-2 md:block md:w-5/6 md:pb-6">
       <div className="md:flex md:flex-row md:justify-between md:py-4">
         <div className="md:flex md:items-center">
           <Link
             className="relative mr-3 block h-16 w-16 md:h-12 md:w-12"
-            href="/"
+            href={`/${locale}`}
           >
             <Image
               src="/site-logo.png"
@@ -90,7 +103,7 @@ const Header = async ({ locale }: { locale: Locale }) => {
               className="px-4 py-2 text-center hover:bg-white hover:text-green-light"
             >
               <Link
-                href={item.route}
+                href={`${item.route}`}
                 target={item.route.startsWith("http") ? "_blank" : undefined}
               >
                 {item.title}
