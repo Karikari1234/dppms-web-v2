@@ -4,13 +4,21 @@ import FAQAccordion from "@/components/FAQ";
 import HeroSection from "@/components/HeroSection";
 import VendingOptionComponent from "@/components/VendingOptionComponent";
 import VideoEmbed from "@/components/BPDBVideo";
+import { Locale, i18nConfig } from "@/i18n";
 
-export default function Home() {
+type Props = {
+  params: {
+    locale: Locale;
+  };
+};
+
+export default async function Home({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="flex flex-col space-y-2">
       <HeroSection />
       <VendingOptionComponent />
-      <AboutComponent />
+      <AboutComponent locale={locale} />
       <VideoEmbed />
       <h1 className="heading-text !text-center !text-4xl">
         Frequently Asked Questions

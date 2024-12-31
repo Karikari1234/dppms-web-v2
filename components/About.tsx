@@ -1,7 +1,10 @@
 import featureData from "../lib/features.json";
 import FeatureBox, { FeatureProps } from "./featureBox";
+import { Locale } from "@/i18n";
+import { getTranslation } from "@/lib/i18n/getTranslation";
+import LocaleSelector from "@/components/locale-selector";
 
-const AboutComponent = () => {
+const AboutComponent = async ({ locale }: { locale: Locale }) => {
   const items = (featureData as FeatureProps[]).map((item) => {
     return (
       <div key={item.order}>
@@ -9,6 +12,7 @@ const AboutComponent = () => {
       </div>
     );
   });
+  const translation = await getTranslation(locale);
   return (
     <div>
       <h1 className="heading-text mb-4 !text-left md:mb-8">
