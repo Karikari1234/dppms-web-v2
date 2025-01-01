@@ -1,20 +1,20 @@
 import { scenariosData } from "@/lib/vending-scenario";
 import React from "react";
+import { Locale } from "@/i18n";
+import { getTranslation } from "@/lib/i18n/getTranslation";
 
-const PrepaidMeterCharges = () => {
+const PrepaidMeterCharges = async ({ locale }: { locale: Locale }) => {
   // Mocked tabular data for each scenario
+  const translation = await getTranslation(locale);
 
   return (
     <div className="">
       <h1 className="heading-text mb-4 !text-left md:mb-8">
-        Prepaid Meter Charges Explained
+        {translation("prepaid_meter_charges.title")}
       </h1>
 
       <p className="flex flex-col space-y-4 text-base text-gray-700 md:mb-4 md:flex-row md:space-x-4 md:space-y-0">
-        Prepaid meter consumers have to pay Meter Rent and Demand Charge as per
-        the Govt. rule only for the 1st vending of the month. If a consumer buys
-        the meter by a one-time payment, then the consumer does not have to pay
-        meter rent monthly.
+        {translation("prepaid_meter_charges.description")}
       </p>
       {/*Add this*/}
       {/* <p className="mb-4">
@@ -25,9 +25,7 @@ const PrepaidMeterCharges = () => {
       </p> */}
 
       <p className="flex flex-col space-y-4 text-base text-gray-700 md:mb-4 md:flex-row md:space-x-4 md:space-y-0">
-        Prepaid meter charges are explained here using an example of Prepaid
-        meter consumer of BPDB who is a LT-A Residential Consumer and uses
-        Single Phase Connection and 2 KW Sanction Load .
+        {translation("prepaid_meter_charges.example")}
       </p>
       {/* Render scenarios */}
       {scenariosData.map((scenario, index) => (

@@ -1,8 +1,10 @@
 "use client";
 
 import CustomerChart from "./CustomerChart";
+import { Locale } from "@/i18n";
+import { getTranslation } from "@/lib/i18n/getTranslation";
 
-const CustomerStats = () => {
+const CustomerStats = async ({ locale }: { locale: Locale }) => {
   return (
     <div className="space-y-4 text-base  md:space-y-10">
       <h1 className="heading-text mb-5 !text-left !text-4xl">

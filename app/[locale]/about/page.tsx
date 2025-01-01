@@ -17,10 +17,10 @@ const About = async ({ params }: Props) => {
   return (
     <div className="space-y-8">
       <AboutComponent locale={locale} />
-      <PrepaidMeterCharges />
-      <VendingOptionComponent />
-      <ZonePercentageTable />
-      <CustomerStats />
+      <PrepaidMeterCharges locale={locale} />
+      <VendingOptionComponent locale={locale} />
+      <ZonePercentageTable locale={locale} />
+      <CustomerStats locale={locale} />
     </div>
   );
 };

@@ -26,6 +26,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+import { Locale } from "@/i18n";
+import { getTranslation } from "@/lib/i18n/getTranslation";
 const sourceCodePro = Source_Code_Pro({ subsets: ["latin"] });
 
 const formSchema = z.object({
@@ -65,7 +68,7 @@ const defaultMeterCharges: MeterCharges = {
   firstTime: "",
 };
 
-export function EnergyCalculatorForm() {
+export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });

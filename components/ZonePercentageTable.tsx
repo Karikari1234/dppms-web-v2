@@ -8,6 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
+import { Locale } from "@/i18n";
+import { getTranslation } from "@/lib/i18n/getTranslation";
 
 interface ZoneData {
   id: number;
@@ -15,7 +17,7 @@ interface ZoneData {
   totalCustomerNumber: string;
 }
 
-const ZonePercentageTable = () => {
+const ZonePercentageTable = async ({ locale }: { locale: Locale }) => {
   const zoneData: ZoneData[] = [
     {
       id: 1,

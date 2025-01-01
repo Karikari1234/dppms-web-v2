@@ -14,5 +14,15 @@
     "title": "Prepaid Metering System BPDB",
     "phone_number": "16200",
     "lang": "বাংলা"
-  }
+  },
+  "about": {
+    "benefit_title": "Benefits of Prepaid Metering System",
+    "benefit_part_1": "Postpaid billing is slow, costly, and error-prone. It relies on manual meter reading, bill preparation, and distribution. It also allows customers to delay or avoid paying for their electricity usage. This hurts the distribution units.",
+    "benefit_part_2": "Prepaid metering solves these problems. It is fast, cheap, and accurate. It uses smart meters that let customers monitor their consumption, recharge their balance, and enjoy uninterrupted power. It benefits both the customers and the distribution units."
+  },
+  "prepaid_meter_charges": {
+      "title": "Prepaid Meter Charges Explained",
+      "description": "Prepaid meter consumers have to pay Meter Rent and Demand Charge as per the Govt. rule only for the 1st vending of the month. If a consumer buys the meter by a one-time payment, then the consumer does not have to pay meter rent monthly.",
+      "example": "Prepaid meter charges are explained here using an example of Prepaid meter consumer of BPDB who is a LT-A Residential Consumer and uses Single Phase Connection and 2 KW Sanction Load."
+    }
 }

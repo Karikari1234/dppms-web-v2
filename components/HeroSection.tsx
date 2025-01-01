@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Locale } from "@/i18n";
+import { getTranslation } from "@/lib/i18n/getTranslation";
 
-const HeroSection = () => {
+const HeroSection = async ({ locale }: { locale: Locale }) => {
   return (
     <div className="grid lg:grid lg:grid-cols-hero lg:items-center lg:gap-4">
       <div className="row-start-2 lg:order-last lg:col-start-2 lg:row-start-1">

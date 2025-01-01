@@ -3,7 +3,7 @@
 import { i18nConfig, Locale } from "@/i18n";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const redirectToLocale = (locale: Locale, pathname: string) => {
   if (!pathname) return "/";
@@ -17,7 +17,7 @@ const redirectToLocale = (locale: Locale, pathname: string) => {
 const LocaleSelector = () => {
   const pathname = usePathname();
   // console.log(pathname);
-  const [currentLocale, setCurrentLocale] = useState<Locale>(pathname == "/en" ? 'bn' : 'en');
+  const [currentLocale, setCurrentLocale] = useState<Locale>(pathname == "/en" ? 'bn' : pathname == "/bn" ? 'en' : 'en');
 
   const localeInfo = {
     en: { native: "English", default: "English" },
@@ -26,6 +26,7 @@ const LocaleSelector = () => {
 
   const toggleLocale = () => {
     const newLocale = currentLocale === "en" ? "bn" : "en";
+    console.log(currentLocale, newLocale);
     setCurrentLocale(newLocale);
   };
 

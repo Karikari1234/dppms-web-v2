@@ -1,5 +1,9 @@
 import Image from "next/image";
-const VendingOptionComponent = () => {
+import { Locale } from "@/i18n";
+import { getTranslation } from "@/lib/i18n/getTranslation";
+
+const VendingOptionComponent = async ({ locale }: { locale: Locale }) => {
+  const translation = await getTranslation(locale);
   return (
     <div>
       <div className="mb-8 flex flex-col justify-center space-y-6 md:items-center">

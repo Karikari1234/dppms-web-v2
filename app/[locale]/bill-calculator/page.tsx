@@ -1,11 +1,19 @@
 "use client";
 import { EnergyCalculatorForm } from "@/components/BillCalculator";
+import { Locale, i18nConfig } from "@/i18n";
 
-const BillCalculator = () => {
+type Props = {
+  params: {
+    locale: Locale;
+  };
+};
+
+const BillCalculator = async ({ params }: Props) => {
+  const { locale } = await params;
   return (
     <div className="mx-auto max-w-md">
       <div className="mb-4 rounded border border-gray-200 p-8 shadow-lg">
-        <EnergyCalculatorForm />
+        <EnergyCalculatorForm locale={locale}/>
       </div>
       <div className="text-sm">
         <span className="text-red-500">**</span>LT-A Tariff Customer(Single
