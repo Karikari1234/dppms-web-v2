@@ -3,6 +3,7 @@ export interface MenuItem {
   route: string;
 }
 
+
 export const topMenu: Array<MenuItem> = [
   { title: "Home", route: "/" },
   { title: "About", route: "/about" },
@@ -14,3 +15,11 @@ export const topMenu: Array<MenuItem> = [
   { title: "Check Meter Token", route: "/token-check" },
   { title: "FAQ", route: "/faq" },
 ];
+
+// export interface MenuItem {
+//   title: {
+//     en: string;
+//     bn: string;
+//   };
+//   route: string;
+// }

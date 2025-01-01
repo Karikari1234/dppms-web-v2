@@ -7,12 +7,12 @@ const VendingOptionComponent = async ({ locale }: { locale: Locale }) => {
   return (
     <div>
       <div className="mb-8 flex flex-col justify-center space-y-6 md:items-center">
-        <h6 className="text-3xl font-semibold md:text-3xl">Vending Partners</h6>
+        <h6 className="text-3xl font-semibold md:text-3xl">{translation("vending_options.vending_partners")}</h6>
         <h1 className="text-4xl font-semibold md:text-5xl">
-          Multiple digital vending gateways
+        {translation("vending_options.gateways")}
         </h1>
         <h6 className="text-lg md:text-xl">
-          Currently Vending can be done through RobiCash on web only.
+        {translation("vending_options.web")}
         </h6>
       </div>
       <div className="grid grid-cols-2 place-content-center place-items-center gap-4 md:mx-auto md:w-3/5 md:grid-cols-3 md:grid-rows-3">

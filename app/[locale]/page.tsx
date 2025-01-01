@@ -19,7 +19,7 @@ export default async function Home({ params }: Props) {
       <HeroSection locale={locale}/>
       <VendingOptionComponent locale={locale}/>
       <AboutComponent locale={locale} />
-      <VideoEmbed />
+      <VideoEmbed locale={locale}/>
       <h1 className="heading-text !text-center !text-4xl">
         Frequently Asked Questions
       </h1>

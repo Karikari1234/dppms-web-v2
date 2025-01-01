@@ -1,11 +1,11 @@
-import featureData from "../lib/features.json";
+import {featureData} from "../lib/features";
 import FeatureBox, { FeatureProps } from "./featureBox";
 import { Locale } from "@/i18n";
 import { getTranslation } from "@/lib/i18n/getTranslation";
 import LocaleSelector from "@/components/locale-selector";
 
 const AboutComponent = async ({ locale }: { locale: Locale }) => {
-  const items = (featureData as FeatureProps[]).map((item) => {
+  const items = (featureData[locale] as FeatureProps[]).map((item) => {
     return (
       <div key={item.order}>
         <FeatureBox {...item}></FeatureBox>

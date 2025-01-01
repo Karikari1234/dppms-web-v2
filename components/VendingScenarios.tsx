@@ -28,13 +28,13 @@ const PrepaidMeterCharges = async ({ locale }: { locale: Locale }) => {
         {translation("prepaid_meter_charges.example")}
       </p>
       {/* Render scenarios */}
-      {scenariosData.map((scenario, index) => (
+      {scenariosData[locale].map((scenario, index) => (
         <div
           key={index}
           className="mb-8 text-base  md:mb-16 md:flex-row md:space-x-4"
         >
           <h4 className="text-md mb-4 !text-left font-bold md:mb-8">
-            Vending Scenario {index + 1}
+            {translation("prepaid_meter_charges.vending_scenario")} {` ${scenario.scenario}`}
           </h4>
 
           <div className="mb-4 flex flex-col space-y-4 text-base text-gray-700 md:mb-4 md:flex-row md:space-x-4">
@@ -45,9 +45,9 @@ const PrepaidMeterCharges = async ({ locale }: { locale: Locale }) => {
             <table className="min-w-full overflow-hidden rounded-md border">
               <thead className="bg-gray-100">
                 <tr>
-                  <th className="border-b px-4 py-2">Charge Details</th>
-                  <th className="border-b px-4 py-2">Calculation</th>
-                  <th className="border-b px-4 py-2">Amount of Money (BDT)</th>
+                  <th className="border-b px-4 py-2">{translation("prepaid_meter_charges.charge_details")}</th>
+                  <th className="border-b px-4 py-2">{translation("prepaid_meter_charges.calculation")}</th>
+                  <th className="border-b px-4 py-2">{translation("prepaid_meter_charges.amount_of_money")}</th>
                 </tr>
               </thead>
               <tbody>

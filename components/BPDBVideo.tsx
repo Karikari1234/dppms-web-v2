@@ -1,8 +1,12 @@
-const VideoEmbed = () => {
+import { Locale } from "@/i18n";
+import { getTranslation } from "@/lib/i18n/getTranslation";
+
+const VideoEmbed= async ({ locale }: { locale: Locale }) => {
+  const translation = await getTranslation(locale);
   return (
     <div>
       <h1 className="heading-text mb-4 !text-center md:mb-8">
-        Learn More about BPDB Pre Paid Metering
+        {translation("video_embed.title")}
       </h1>
       <div
         style={{

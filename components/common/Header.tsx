@@ -1,4 +1,4 @@
-import { MenuItem, topMenu } from "@/lib/nav-menu";
+import { MenuItem } from "@/lib/nav-menu";
 import Image from "next/image";
 import Link from "next/link";
 import LocaleSelector from "@/components/locale-selector";
@@ -17,16 +17,50 @@ const Header = async ({ locale }: { locale: Locale }) => {
   //     : router.push(pathname, { locale: "en" });
   // };
 
+  // const topMenu: Array<MenuItem> = [
+  //   { title: "Home", route: `/${locale}/` },
+  //   { title: "About", route: `/${locale}/about` },
+  //   {
+  //     title: "BPDB Care Point",
+  //     route: "https://carepoint.bpdbprepaid.gov.bd",
+  //   },
+  //   { title: "Calculate Meter Charges", route: `/${locale}/bill-calculator` },
+  //   { title: "Check Meter Token", route: `/${locale}/token-check` },
+  //   { title: "FAQ", route: `/${locale}/faq` },
+  // ];
+  interface MenuItem {
+    title: {
+      en: string;
+      bn: string;
+    };
+    route: string;
+  }
+
   const topMenu: Array<MenuItem> = [
-    { title: "Home", route: `/${locale}/` },
-    { title: "About", route: `/${locale}/about` },
+    { 
+      title: { en: "Home", bn: "হোম" }, 
+      route: `/${locale}/` 
+    },
+    { 
+      title: { en: "About", bn: "সম্পর্কে" }, 
+      route: `/${locale}/about` 
+    },
     {
-      title: "BPDB Care Point",
+      title: { en: "BPDB Care Point", bn: "বিপিডিবি কেয়ার পয়েন্ট" },
       route: "https://carepoint.bpdbprepaid.gov.bd",
     },
-    { title: "Calculate Meter Charges", route: `/${locale}/bill-calculator` },
-    { title: "Check Meter Token", route: `/${locale}/token-check` },
-    { title: "FAQ", route: `/${locale}/faq` },
+    { 
+      title: { en: "Calculate Meter Charges", bn: "মিটার চার্জ হিসাব করুন" }, 
+      route: `/${locale}/bill-calculator` 
+    },
+    { 
+      title: { en: "Check Meter Token", bn: "মিটার টোকেন দেখুন" }, 
+      route: `/${locale}/token-check` 
+    },
+    { 
+      title: { en: "FAQ", bn: "প্রশ্নাবলী" }, 
+      route: `/${locale}/faq` 
+    },
   ];
 
   return (
@@ -99,14 +133,14 @@ const Header = async ({ locale }: { locale: Locale }) => {
         <ul className="md:flex md:justify-between md:text-sm md:font-semibold md:text-white">
           {topMenu.map((item) => (
             <li
-              key={item.title}
+              key={item.title[locale]}
               className="px-4 py-2 text-center hover:bg-white hover:text-green-light"
             >
               <Link
                 href={`${item.route}`}
                 target={item.route.startsWith("http") ? "_blank" : undefined}
               >
-                {item.title}
+                {item.title[locale]}
               </Link>
             </li>
           ))}

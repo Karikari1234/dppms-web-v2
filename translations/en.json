@@ -23,6 +23,27 @@
   "prepaid_meter_charges": {
       "title": "Prepaid Meter Charges Explained",
       "description": "Prepaid meter consumers have to pay Meter Rent and Demand Charge as per the Govt. rule only for the 1st vending of the month. If a consumer buys the meter by a one-time payment, then the consumer does not have to pay meter rent monthly.",
-      "example": "Prepaid meter charges are explained here using an example of Prepaid meter consumer of BPDB who is a LT-A Residential Consumer and uses Single Phase Connection and 2 KW Sanction Load."
+      "example": "Prepaid meter charges are explained here using an example of Prepaid meter consumer of BPDB who is a LT-A Residential Consumer and uses Single Phase Connection and 2 KW Sanction Load.",
+      "vending_scenario": "Vending Scenario",
+      "charge_details": "Charge Details",
+      "calculation": "Calculation",
+      "amount_of_money": "Amount of Money (BDT)"
+    },
+    "vending_options": {
+      "vending_partners": "Vending Partners",
+      "gateways": "Multiple digital vending gateways",
+      "web": "Currently Vending can be done through RobiCash on web only."
+    },
+    "hero_section": {
+      "welcome": "Welcome to",
+      "prepaid_metering": "Prepaid Metering",
+      "system": "System",
+      "BPDB": "BPDB",
+      "description": "The smart and convenient way to pay for your electricity. With prepaid metering, you can monitor your energy consumption, and recharge your balance easily.",
+      "calculate_meter_charges_button": "Calculate Meter Charges",
+      "check_last_three_token_button": "Check last 3 recharge token"
+    },
+    "video_embed": {
+      "title": "Learn More about BPDB Pre Paid Metering"
     }
 }
