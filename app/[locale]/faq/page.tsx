@@ -1,4 +1,3 @@
-"use client";
 import FAQAccordion from "@/components/FAQ";
 import { Locale, i18nConfig } from "@/i18n";
 
