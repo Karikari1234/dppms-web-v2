@@ -33,7 +33,7 @@ const calculateMeterRentMonths = (date: string, chargeAmount: number) => {
   const monthsList: string[] = [];
   for (let i = 0; i < months; i++) {
     const relevantDate = subMonths(orderDate, i);
-    monthsList.push(format(relevantDate, "MMM"));
+    monthsList.push(format(relevantDate, "MMM''yy"));
   }
   
   if (monthsList.length == 0) return "No Charges"
@@ -53,7 +53,7 @@ const calculateDemandChargesMonths = (date: string, chargeAmount: number, snLoad
   const monthsList: string[] = [];
   for (let i = 0; i < months; i++) {
     const relevantDate = subMonths(orderDate, i);
-    monthsList.push(format(relevantDate, "MMM"));
+    monthsList.push(format(relevantDate, "MMM''yy"));
   }
   
   if (monthsList.length == 0) return "No Charges"
