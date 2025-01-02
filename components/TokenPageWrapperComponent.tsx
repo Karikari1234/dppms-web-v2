@@ -25,7 +25,7 @@ const TokenPageWrapperComponent = () => {
       <h2 className="heading-text mb-4 !text-center !text-2xl md:mb-8">
         Last 3 Recharge Token Information
       </h2>
-      <TokenInfoTable tokens={orderData.result} />
+      <TokenInfoTable tokens={orderData.result} customer={customerData}/>
 
       {/* <div>
         <pre>{`${JSON.stringify(orderData.result.orders, null, 2)}`}</pre>

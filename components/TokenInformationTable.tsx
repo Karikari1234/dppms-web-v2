@@ -18,6 +18,7 @@ import { parseISO, subMonths, format } from "date-fns";
 
 interface Props {
   tokens: any;
+  customer: any;
 }
 
 // Helper function to calculate relevant months for meter rent
@@ -27,6 +28,26 @@ const calculateMeterRentMonths = (date: string, chargeAmount: number) => {
   );
   const orderDate = parseISO(date);
   const months = Math.floor(chargeAmount / meterRentPerMonth);
+
+  // Generate the list of relevant months
+  const monthsList: string[] = [];
+  for (let i = 0; i < months; i++) {
+    const relevantDate = subMonths(orderDate, i);
+    monthsList.push(format(relevantDate, "MMM"));
+  }
+  
+  if (monthsList.length == 0) return "No Charges"
+  else return monthsList.reverse().join(", ");
+};
+
+// Helper function to calculate relevant months for meter rent
+const calculateDemandChargesMonths = (date: string, chargeAmount: number, snLoad: number) => {
+  const demandChargesPerUnit = parseInt(
+    process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42",
+  );
+  const demandChargesPerMonth = demandChargesPerUnit * snLoad;
+  const orderDate = parseISO(date);
+  const months = Math.floor(chargeAmount / demandChargesPerMonth);
 
   // Generate the list of relevant months
   const monthsList: string[] = [];
@@ -56,8 +77,10 @@ const get_item_name = (a: any, b: any) =>
 const TokenInfoTable = (props: Props) => {
   try {
     const { tokens } = props;
-    //console.log(props.tokens);
+    const { customer } = props;
+    //console.log(props);
     let tokenInfo: Array<Order> = tokens.orders.order;
+    let customerSnLoad = customer.result.sanctionLoad._text;
     //console.log(tokenInfo);
 
     tokenInfo.map((token) => token.tariffFees.tariffFee?.sort(get_item_name));
@@ -127,16 +150,13 @@ const TokenInfoTable = (props: Props) => {
                             token.date._text,
                             parseFloat(tariff.chargeAmount._text),
                           )})` // Add Meter Rent months
-                        : tariff.itemName._text === "Demand Charge"
-                        ? ` (${calculateMeterRentMonths(
+                        : ""}
+                      {tariff.itemName._text === "Demand Charge"
+                        ? ` (${calculateDemandChargesMonths(
                             token.date._text,
-                            parseFloat(
-                              token.tariffFees.tariffFee.find(
-                                (fee: TariffFee) =>
-                                  fee.itemName._text === "Meter Rent 1P",
-                              )?.chargeAmount._text || "0",
-                            ),
-                          )})` // Append Meter Rent months to Demand Charge
+                            parseFloat(tariff.chargeAmount._text),
+                            parseFloat(customerSnLoad)
+                          )})` // Add Demand Charge months
                         : ""}
                     </TableCell>
                   ))}
