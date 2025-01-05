@@ -10,8 +10,11 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { getTranslation } from "@/lib/i18n/getTranslation";
+import { Locale } from "@/i18n";
 
-const CustomerChart = () => {
+const CustomerChart = async ({ locale }: { locale: Locale }) => {
+  const translation = await getTranslation(locale);
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart
@@ -35,7 +38,7 @@ const CustomerChart = () => {
           dataKey="newCustomerNo"
           stroke="#00513D"
           activeDot={{ r: 8 }}
-          name="Number of new customer connections per month"
+          name={translation("customerCharts.title")}
         />
       </LineChart>
     </ResponsiveContainer>

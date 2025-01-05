@@ -18,6 +18,7 @@ interface ZoneData {
 }
 
 const ZonePercentageTable = async ({ locale }: { locale: Locale }) => {
+  const translation = await getTranslation(locale);
   const zoneData: ZoneData[] = [
     {
       id: 1,
@@ -43,17 +44,17 @@ const ZonePercentageTable = async ({ locale }: { locale: Locale }) => {
   return (
     <>
       <p className="font-bold ">
-        Zone Wise Prepaid Customer Distribution of BPDB (Up to August - 2024):
+        {translation("zoneWiseStats.title")}
       </p>
       <div className="md:max-w-5/6 md:mx-auto">
         <Table className="">
-          <TableCaption>Zonal Prepaid Customer Distribution BPDB.</TableCaption>
+          <TableCaption>{translation("zoneWiseStats.tableCaption")}</TableCaption>
           <TableHeader className="">
             <TableRow className="bg-gray-100">
-              <TableHead>Sl No.</TableHead>
-              <TableHead>Zone</TableHead>
+              <TableHead>{translation("zoneWiseStats.tableHead1")}</TableHead>
+              <TableHead>{translation("zoneWiseStats.tableHead2")}</TableHead>
               <TableHead className="text-center">
-                Total Prepaid Customers
+              {translation("zoneWiseStats.tableHead3")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -69,8 +70,8 @@ const ZonePercentageTable = async ({ locale }: { locale: Locale }) => {
             ))}
             <TableRow>
               <TableCell></TableCell>
-              <TableCell className="font-bold">Total</TableCell>
-              <TableCell className="text-center font-bold">26,97,415</TableCell>
+              <TableCell className="font-bold">{translation("zoneWiseStats.total")}</TableCell>
+              <TableCell className="text-center font-bold">{translation("zoneWiseStats.count")}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
