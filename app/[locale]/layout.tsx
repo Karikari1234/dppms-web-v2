@@ -43,13 +43,13 @@ export default async function RootLayout({ children, params }: Props) {
           <Header locale={locale} />
         </div>
         <div className="md:hidden">
-          <MobileNavbar />
+          <MobileNavbar locale={locale} />
         </div>
         {/* <ResponsiveNavbar /> */}
         <main className="w-full px-1 md:mx-auto md:w-5/6 md:p-0 ">
           {children}
         </main>
-        <Footer />
+        <Footer locale={locale}/>
         <div className="hidden md:block">
           <Toaster />
         </div>

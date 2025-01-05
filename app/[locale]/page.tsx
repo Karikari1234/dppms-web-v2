@@ -5,6 +5,7 @@ import HeroSection from "@/components/HeroSection";
 import VendingOptionComponent from "@/components/VendingOptionComponent";
 import VideoEmbed from "@/components/BPDBVideo";
 import { Locale, i18nConfig } from "@/i18n";
+import { getTranslation } from "@/lib/i18n/getTranslation";
 
 type Props = {
   params: {
@@ -14,6 +15,7 @@ type Props = {
 
 export default async function Home({ params }: Props) {
   const { locale } = await params;
+  const translation = await getTranslation(locale);
   return (
     <div className="flex flex-col space-y-2">
       <HeroSection locale={locale}/>
@@ -21,7 +23,7 @@ export default async function Home({ params }: Props) {
       <AboutComponent locale={locale} />
       <VideoEmbed locale={locale}/>
       <h1 className="heading-text !text-center !text-4xl">
-        Frequently Asked Questions
+        {translation("faq.title")}
       </h1>
       <div className="md:mx-auto md:w-5/6">
         <FAQAccordion locale={locale}></FAQAccordion>

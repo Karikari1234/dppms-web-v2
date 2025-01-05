@@ -4,6 +4,7 @@ import Link from "next/link";
 import LocaleSelector from "@/components/locale-selector";
 import { Locale } from "@/i18n";
 import { getTranslation } from "@/lib/i18n/getTranslation";
+import { topMenu } from "@/lib/nav-menu";
 
 const Header = async ({ locale }: { locale: Locale }) => {
   const translation = await getTranslation(locale);
@@ -28,40 +29,40 @@ const Header = async ({ locale }: { locale: Locale }) => {
   //   { title: "Check Meter Token", route: `/${locale}/token-check` },
   //   { title: "FAQ", route: `/${locale}/faq` },
   // ];
-  interface MenuItem {
-    title: {
-      en: string;
-      bn: string;
-    };
-    route: string;
-  }
+  // interface MenuItem {
+  //   title: {
+  //     en: string;
+  //     bn: string;
+  //   };
+  //   route: string;
+  // }
 
-  const topMenu: Array<MenuItem> = [
-    { 
-      title: { en: "Home", bn: "হোম" }, 
-      route: `/${locale}/` 
-    },
-    { 
-      title: { en: "About", bn: "সম্পর্কে" }, 
-      route: `/${locale}/about` 
-    },
-    {
-      title: { en: "BPDB Care Point", bn: "বিপিডিবি কেয়ার পয়েন্ট" },
-      route: "https://carepoint.bpdbprepaid.gov.bd",
-    },
-    { 
-      title: { en: "Calculate Meter Charges", bn: "মিটার চার্জ হিসাব করুন" }, 
-      route: `/${locale}/bill-calculator` 
-    },
-    { 
-      title: { en: "Check Meter Token", bn: "মিটার টোকেন দেখুন" }, 
-      route: `/${locale}/token-check` 
-    },
-    { 
-      title: { en: "FAQ", bn: "প্রশ্নাবলী" }, 
-      route: `/${locale}/faq` 
-    },
-  ];
+  // const topMenu: Array<MenuItem> = [
+  //   { 
+  //     title: { en: "Home", bn: "হোম" }, 
+  //     route: `/${locale}/` 
+  //   },
+  //   { 
+  //     title: { en: "About", bn: "সম্পর্কে" }, 
+  //     route: `/${locale}/about` 
+  //   },
+  //   {
+  //     title: { en: "BPDB Care Point", bn: "বিপিডিবি কেয়ার পয়েন্ট" },
+  //     route: "https://carepoint.bpdbprepaid.gov.bd",
+  //   },
+  //   { 
+  //     title: { en: "Calculate Meter Charges", bn: "মিটার চার্জ হিসাব করুন" }, 
+  //     route: `/${locale}/bill-calculator` 
+  //   },
+  //   { 
+  //     title: { en: "Check Meter Token", bn: "মিটার টোকেন দেখুন" }, 
+  //     route: `/${locale}/token-check` 
+  //   },
+  //   { 
+  //     title: { en: "FAQ", bn: "সচরাচর জিজ্ঞাসা" }, 
+  //     route: `/${locale}/faq` 
+  //   },
+  // ];
 
   return (
     <header className="hidden md:mx-auto md:mb-2 md:block md:w-5/6 md:pb-6">
@@ -137,8 +138,8 @@ const Header = async ({ locale }: { locale: Locale }) => {
               className="px-4 py-2 text-center hover:bg-white hover:text-green-light"
             >
               <Link
-                href={`${item.route}`}
-                target={item.route.startsWith("http") ? "_blank" : undefined}
+                href={`/${locale}${item.route}`}
+                target={`/${locale}${item.route}`.startsWith("http") ? "_blank" : undefined}
               >
                 {item.title[locale]}
               </Link>

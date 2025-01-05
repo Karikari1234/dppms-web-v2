@@ -45,5 +45,26 @@
     },
     "video_embed": {
       "title": "Learn More about BPDB Pre Paid Metering"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions"
+    },
+    "footer": {
+        "site_description": "Prepaid Metering System has been a revolution for improving the power sector in Bangladesh. BPDB, with its aim to empower people with quality electricity, aims for 100% prepaid metering in near future.",
+        "meter_manual": "Meter Manual",
+        "quick_links": "Quick Links",
+        "about": "About",
+        "help": "Help",
+        "hexing_manual": "Hexing Meter Manual",
+        "inhe_manual": "Inhe Meter Manual",
+        "liyong_manual": "Liyong Meter Manual",
+        "eastern_manual": "Eastern Meter Manual",
+        "system_operations_manual": "System Operations Manual",
+        "meter_charge_calculator": "Meter Charge Calculator",
+        "meter_short_codes": "Meter Short Codes",
+        "why_prepaid": "Why Prepaid",
+        "faq": "FAQ",
+        "facebook_group": "Facebook Group",
+        "built_by": "Built by BPDB. © Copyright 2023."
     }
 }

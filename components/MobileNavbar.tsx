@@ -11,31 +11,34 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
 import { topMenu } from "@/lib/nav-menu";
-
-
+import LocaleSelector from "@/components/locale-selector";
+import { Locale } from "@/i18n";
 
 interface Props {
+  locale: Locale;
   openNav: boolean;
   onOpenNavChange: (openNav: boolean) => void;
 }
 
-function NavList(props: Props) {
+const NavList = ({ locale, openNav, onOpenNavChange }: Props) => {
+
   return (
     <ul className="my-2 flex flex-col gap-2 text-sm lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       {topMenu.map((item) => (
+        //console.log("Menu item:", item.title[locale]),
         <li
-          key={item.title}
+          key={`${locale}-${item.route}`}
           className="text-center text-black"
-          onClick={() => props.onOpenNavChange(!props.openNav)}
+          onClick={() => onOpenNavChange(!openNav)}
         >
-          <Link href={item.route}>{item.title}</Link>
+          <Link href={`/${locale}${item.route}`}>{item.title[locale]}</Link>
         </li>
       ))}
     </ul>
   );
-}
+};
 
-export function MobileNavbar() {
+export const MobileNavbar = ({ locale }: { locale: Locale }) => {
   const [openNav, setOpenNav] = React.useState(false);
 
   const handleWindowResize = () =>
@@ -70,6 +73,7 @@ export function MobileNavbar() {
         </div>
         <div className="hidden lg:block">
           <NavList
+            locale={locale}
             openNav={openNav}
             onOpenNavChange={(newOpenNav: boolean) => setOpenNav(newOpenNav)}
           />
@@ -89,12 +93,12 @@ export function MobileNavbar() {
       </div>
       <Collapse open={openNav}>
         <NavList
+          locale={locale}
           openNav={openNav}
-          onOpenNavChange={(
-            newOpenNav: boolean | ((prevState: boolean) => boolean),
-          ) => setOpenNav(newOpenNav)}
+          onOpenNavChange={(newOpenNav: boolean) => setOpenNav(newOpenNav)}
         />
       </Collapse>
+      <LocaleSelector />
     </Navbar>
   );
-}
+};
