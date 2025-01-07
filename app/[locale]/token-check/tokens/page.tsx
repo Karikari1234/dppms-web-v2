@@ -1,10 +1,18 @@
 "use client";
 import TokenPageWrapperComponent from "@/components/TokenPageWrapperComponent";
+import { Locale, i18nConfig } from "@/i18n";
 
-const ResultWithOnlyMeterNoPage = () => {
+type Props = {
+  params: {
+    locale: Locale;
+  };
+};
+
+const ResultWithOnlyMeterNoPage = async ({ params }: Props) => {
+  const { locale } = await params;
   return (
     <>
-      <TokenPageWrapperComponent />
+      <TokenPageWrapperComponent locale={locale}/>
     </>
   );
 };

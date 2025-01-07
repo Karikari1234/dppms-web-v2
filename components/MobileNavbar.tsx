@@ -31,7 +31,7 @@ const NavList = ({ locale, openNav, onOpenNavChange }: Props) => {
           className="text-center text-black"
           onClick={() => onOpenNavChange(!openNav)}
         >
-          <Link href={`/${locale}${item.route}`}>{item.title[locale]}</Link>
+          <Link href={item.title[locale] === 'BPDB Care Point' || item.title[locale] === 'বিপিডিবি কেয়ার পয়েন্ট' ? `${item.route}`: `/${locale}${item.route}`}>{item.title[locale]}</Link>
         </li>
       ))}
     </ul>
@@ -98,7 +98,7 @@ export const MobileNavbar = ({ locale }: { locale: Locale }) => {
           onOpenNavChange={(newOpenNav: boolean) => setOpenNav(newOpenNav)}
         />
       </Collapse>
-      <LocaleSelector />
+      <LocaleSelector locale={locale} />
     </Navbar>
   );
 };

@@ -107,5 +107,28 @@
     "legacyInhe3P": "(Old) Inhe Meter(3P)",
     "legacyLinyang": "(Old) Linyang Meter",
     "legacyEastern": "(Old) Eastern Meter(EMPP0)"
+  },
+    "customerInfo": {
+    "title": "Customer Information",
+    "tableCaption": "Customer Information Summary.",
+    "metadata": "Metadata",
+    "information": "Information",
+    "customerName": "Customer Name",
+    "customerAccountNo": "Customer Account No.",
+    "customerMeterNo": "Customer Meter No.",
+    "sanctionLoad": "Sanction Load",
+    "customerAddress": "Customer Address",
+    "lastRechargeAmount": "Last Recharge Amount",
+    "lastRechargeTime": "Last Recharge Time",
+    "sndDivision": "SND Division"
+  },
+  "tokenInfo": {
+   "title": "Last 3 Recharge Token Information", 
+  "tableCaption": "Last 3 Recharge Token Summary",
+  "date": "Date",
+  "tokenNumber": "Token No.",
+  "sequence": "Sequence",
+  "grossAmount": "Gross Recharge Amount",
+  "energyCost": "Energy Cost"
   }
 }

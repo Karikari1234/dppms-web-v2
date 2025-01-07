@@ -107,5 +107,28 @@
     "legacyInhe3P": "(পুরাতন) ইনহে মিটার(৩ ফেজ)",
     "legacyLinyang": "(পুরাতন) লিনিয়াং মিটার",
     "legacyEastern": "(পুরাতন) ইস্টার্ন মিটার(EMPP0)"
-  }
+  },
+    "customerInfo": {
+    "title": "গ্রাহকের তথ্য",
+    "tableCaption": "গ্রাহকের তথ্যের সারসংক্ষেপ।",
+    "metadata": "মেটাডেটা",
+    "information": "তথ্য",
+    "customerName": "গ্রাহকের নাম",
+    "customerAccountNo": "গ্রাহকের অ্যাকাউন্ট নম্বর",
+    "customerMeterNo": "গ্রাহকের মিটার নম্বর",
+    "sanctionLoad": "অনুমোদিত লোড",
+    "customerAddress": "গ্রাহকের ঠিকানা",
+    "lastRechargeAmount": "সর্বশেষ রিচার্জের পরিমাণ",
+    "lastRechargeTime": "সর্বশেষ রিচার্জের সময়",
+    "sndDivision": "বিক্রয় ও বিতরণ বিভাগ"
+    },
+    "tokenInfo": {
+      "title": "সর্বশেষ ৩টি রিচার্জ টোকেনের তথ্য",
+      "tableCaption": "সর্বশেষ ৩টি রিচার্জ টোকেনের সারসংক্ষেপ",
+      "date": "তারিখ",
+      "tokenNumber": "টোকেন নম্বর",
+      "sequence": "ক্রম",
+      "grossAmount": "মোট রিচার্জের পরিমাণ",
+      "energyCost": "এনার্জি খরচ"
+    }
 }
