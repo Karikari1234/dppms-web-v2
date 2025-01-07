@@ -1,6 +1,7 @@
 "use client";
 
 import { i18nConfig, Locale } from "@/i18n";
+import { getTranslation, TranslationKey } from "@/lib/i18n/getTranslation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -15,12 +16,28 @@ const redirectToLocale = (locale: Locale, pathname: string) => {
   return pathParts.join("/");
 };
 
-const LocaleSelector = () => {
+const LocaleSelector = ({ locale }: { locale: Locale }) => {
   const pathname = usePathname();
   // console.log(pathname);
   const [currentLocale, setCurrentLocale] = useState<Locale>(
     pathname.includes("en") ? "bn" : pathname.includes("bn") ? "en" : "en",
   );
+  const [translation, setTranslation] = useState<TranslationKey>(
+    () => (key: string) => key,
+  );
+
+  // Load the translation function
+  useEffect(() => {
+    async function loadTranslation() {
+      try {
+        const translationFn = await getTranslation(locale);
+        setTranslation(() => translationFn); // Set the loaded translation function
+      } catch (error) {
+        console.error("Error loading translation:", error);
+      }
+    }
+    loadTranslation();
+  }, [locale]);
 
   const localeInfo = {
     en: { native: "English", default: "English" },
@@ -28,7 +45,8 @@ const LocaleSelector = () => {
   };
 
   const toggleLocale = () => {
-    const newLocale = currentLocale === "en" ? "bn" : currentLocale === "bn" ? "en" :"en";
+    const newLocale =
+      currentLocale === "en" ? "bn" : currentLocale === "bn" ? "en" : "en";
     //console.log(currentLocale, newLocale);
     setCurrentLocale(newLocale);
     //console.log(currentLocale, newLocale);
@@ -44,7 +62,7 @@ const LocaleSelector = () => {
           <Link href={redirectToLocale(currentLocale, pathname)}>
             <div className="hover:bg-neutral-100 flex items-center justify-center rounded-md border bg-white px-3 py-2">
               <h2 className="text-md font-medium text-red-800">
-                {localeInfo[currentLocale].native}
+                {translation("nav.localeSelector.lang")}
               </h2>
             </div>
           </Link>

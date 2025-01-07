@@ -1,7 +1,8 @@
 {
   "nav": {
     "localeSelector": {
-      "message": "Choose a language."
+      "message": "Choose a language.",
+      "lang": "English"
     }
   },
   "views": {

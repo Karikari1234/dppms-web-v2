@@ -127,7 +127,7 @@ const Header = async ({ locale }: { locale: Locale }) => {
             </button>
           </div> */}
 
-          <LocaleSelector />
+          <LocaleSelector locale={locale}/>
         </div>
       </div>
       <nav className="bg-green-light md:flex md:items-center md:justify-center">
