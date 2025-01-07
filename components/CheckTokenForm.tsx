@@ -17,35 +17,13 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { verifyCaptcha } from "@/app/serverActions";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import mOnSubmit from "./OnSubmitMeterNo";
 import { useTokenResStore } from "@/lib/global/store";
 import { Locale } from "@/i18n"; // Assuming you have a Locale type
+import { getTranslation, TranslationKey } from "@/lib/i18n/getTranslation";
 
-// Define translations for English and Bangla
-const translations = {
-  en: {
-    title: "Check Last 3 Recharge Token Numbers",
-    meterNo: "Meter No",
-    provideMeter: "Provide meter number.",
-    placeholder: "Input your 12 digit meter number",
-    submit: "Submit",
-    loading: "Loading...",
-    captchaError: "Please verify that you are not a robot.",
-    reloadError: "Reload and try again.",
-  },
-  bn: {
-    title: "সর্বশেষ ৩টি রিচার্জ টোকেন নম্বর চেক করুন",
-    meterNo: "মিটার নম্বর",
-    provideMeter: "মিটার নম্বর প্রদান করুন।",
-    placeholder: "আপনার ১২ সংখ্যার মিটার নম্বর প্রদান করুন ইংরেজীতে",
-    submit: "জমা দিন",
-    loading: "লোড হচ্ছে...",
-    captchaError: "দয়া করে নিশ্চিত করুন যে আপনি রোবট নন।",
-    reloadError: "পুনরায় লোড করুন এবং আবার চেষ্টা করুন।",
-  },
-};
 
 // Zod schema
 const formSchema = z.object({
@@ -59,7 +37,23 @@ const formSchema = z.object({
 });
 
 export function CheckInputForm({ locale }: { locale: Locale }) {
-  const translation = translations[locale]; // Fetch translations based on locale
+  const [translation, setTranslation] = useState<TranslationKey>(
+    () => (key: string) => key,
+  );
+
+  // Load the translation function
+  useEffect(() => {
+    async function loadTranslation() {
+      try {
+        const translationFn = await getTranslation(locale);
+        setTranslation(() => translationFn); // Set the loaded translation function
+      } catch (error) {
+        console.error("Error loading translation:", error);
+      }
+    }
+    loadTranslation();
+  }, [locale]);
+
   const router = useRouter();
   const { toast } = useToast();
   const recaptchaRef = useRef<ReCAPTCHA>(null);
@@ -87,8 +81,8 @@ export function CheckInputForm({ locale }: { locale: Locale }) {
         router.push("/token-check/tokens");
       } else {
         toast({
-          title: translation.captchaError,
-          description: translation.reloadError,
+          title: translation("tokenCheck.captchaError"),
+          description: translation("tokenCheck.reloadError"),
         });
       }
     } catch (error) {
@@ -98,11 +92,10 @@ export function CheckInputForm({ locale }: { locale: Locale }) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8"
-      >
-        <h1 className="text-2xl font-bold">{translation.title}</h1>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <h1 className="text-2xl font-bold">
+          {translation("tokenCheck.title")}
+        </h1>
 
         <div className="text-lg">
           <FormField
@@ -110,14 +103,16 @@ export function CheckInputForm({ locale }: { locale: Locale }) {
             name="meterNo"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{translation.meterNo}</FormLabel>
+                <FormLabel>{translation("tokenCheck.meterNo")}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={translation.placeholder}
+                    placeholder={translation("tokenCheck.placeholder")}
                     {...form.register("meterNo")}
                   />
                 </FormControl>
-                <FormDescription>{translation.provideMeter}</FormDescription>
+                <FormDescription>
+                  {translation("tokenCheck.provideMeter")}
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -131,14 +126,13 @@ export function CheckInputForm({ locale }: { locale: Locale }) {
         </div>
 
         <div className="space-x-4">
-          <Button
-            className="w-full bg-green"
-            type="submit"
-          >
+          <Button className="w-full bg-green" type="submit">
             {form.formState.isSubmitting ? (
-              <span className="inline-block">{translation.loading}</span>
+              <span className="inline-block">
+                {translation("tokenCheck.loading")}
+              </span>
             ) : (
-              translation.submit
+              translation("tokenCheck.submit")
             )}
           </Button>
         </div>

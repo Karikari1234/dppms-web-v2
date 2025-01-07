@@ -89,8 +89,10 @@
         "title": "Check Last 3 Recharge Token Numbers",
         "meterNo": "Meter No",
         "provideMeter": "Provide meter number.",
+        "placeholder": "Input your 12 digit meter number",
         "submit": "Submit",
-        "amount": "Amount",
-        "loading": "Loading..."
+        "loading": "Loading...",
+        "captchaError": "Please verify that you are not a robot.",
+        "reloadError": "Reload and try again."
       }
 }
