@@ -17,11 +17,37 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { verifyCaptcha } from "@/app/serverActions";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import mOnSubmit from "./OnSubmitMeterNo";
 import { useTokenResStore } from "@/lib/global/store";
+import { Locale } from "@/i18n"; // Assuming you have a Locale type
 
+// Define translations for English and Bangla
+const translations = {
+  en: {
+    title: "Check Last 3 Recharge Token Numbers",
+    meterNo: "Meter No",
+    provideMeter: "Provide meter number.",
+    placeholder: "Input your 12 digit meter number",
+    submit: "Submit",
+    loading: "Loading...",
+    captchaError: "Please verify that you are not a robot.",
+    reloadError: "Reload and try again.",
+  },
+  bn: {
+    title: "সর্বশেষ ৩টি রিচার্জ টোকেন নম্বর চেক করুন",
+    meterNo: "মিটার নম্বর",
+    provideMeter: "মিটার নম্বর প্রদান করুন।",
+    placeholder: "আপনার ১২ সংখ্যার মিটার নম্বর প্রদান করুন ইংরেজীতে",
+    submit: "জমা দিন",
+    loading: "লোড হচ্ছে...",
+    captchaError: "দয়া করে নিশ্চিত করুন যে আপনি রোবট নন।",
+    reloadError: "পুনরায় লোড করুন এবং আবার চেষ্টা করুন।",
+  },
+};
+
+// Zod schema
 const formSchema = z.object({
   meterNo: z
     .string({
@@ -32,65 +58,51 @@ const formSchema = z.object({
     }),
 });
 
-interface CheckInput {
-  meterNo: string;
-}
-
-const defaultCheckInput: CheckInput = {
-  meterNo: "010100000010",
-};
-
-export function CheckInputForm() {
+export function CheckInputForm({ locale }: { locale: Locale }) {
+  const translation = translations[locale]; // Fetch translations based on locale
   const router = useRouter();
   const { toast } = useToast();
-  const [isDisabled, setIsDisabled] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
-  const [isVerified, setIsverified] = useState<boolean>(false);
-  const { responseBody, setResponseBody } = useTokenResStore();
-  //setResponseBody(null);
+  const [isVerified, setIsVerified] = useState(false);
+  const { setResponseBody } = useTokenResStore();
+
   async function handleCaptchaSubmission(token: string | null) {
-    // Server function to verify captcha
-    await verifyCaptcha(token)
-      .then(() => {console.log("YES");setIsverified(true)})
-      .catch(() =>{console.log("NO"); setIsverified(true)});
+    try {
+      await verifyCaptcha(token);
+      setIsVerified(true);
+    } catch {
+      setIsVerified(false);
+    }
   }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
-  //const toast = useToast();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      if (isVerified || true) {
+      if (isVerified) {
         const resObj = await mOnSubmit(values);
-        setResponseBody(null);
         setResponseBody(resObj);
-        //console.log(responseBody);
         router.push("/token-check/tokens");
       } else {
         toast({
-          title: "Please verify that you are not a robot.",
-          description: "Reload and try again.",
+          title: translation.captchaError,
+          description: translation.reloadError,
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
-
-  const [key, setKey] = useState(0);
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8"
-        key={key}
       >
-        <h1 className="text-2xl font-bold">
-          Check Last 3 Recharge Token Numbers
-        </h1>
+        <h1 className="text-2xl font-bold">{translation.title}</h1>
 
         <div className="text-lg">
           <FormField
@@ -98,14 +110,14 @@ export function CheckInputForm() {
             name="meterNo"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Meter No</FormLabel>
+                <FormLabel>{translation.meterNo}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Input your 12 digit meter number"
+                    placeholder={translation.placeholder}
                     {...form.register("meterNo")}
                   />
                 </FormControl>
-                <FormDescription>Provide meter number.</FormDescription>
+                <FormDescription>{translation.provideMeter}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -122,19 +134,12 @@ export function CheckInputForm() {
           <Button
             className="w-full bg-green"
             type="submit"
-            
           >
-            {form.formState.isSubmitting && (
-              <div
-                className="m-12d inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                role="status"
-              >
-                <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                  Loading...
-                </span>
-              </div>
+            {form.formState.isSubmitting ? (
+              <span className="inline-block">{translation.loading}</span>
+            ) : (
+              translation.submit
             )}
-            Submit
           </Button>
         </div>
       </form>

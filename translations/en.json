@@ -84,5 +84,13 @@
         "tableHead3": "Total Prepaid Customers",
         "total": "Total",
         "count": "26,97,415"
+      },
+      "tokenCheck": {
+        "title": "Check Last 3 Recharge Token Numbers",
+        "meterNo": "Meter No",
+        "provideMeter": "Provide meter number.",
+        "submit": "Submit",
+        "amount": "Amount",
+        "loading": "Loading..."
       }
 }
