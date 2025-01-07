@@ -95,5 +95,17 @@
         "loading": "Loading...",
         "captchaError": "Please verify that you are not a robot.",
         "reloadError": "Reload and try again."
-      }
+      },
+  "meterShortCode": {
+    "title": "Meter Short Codes",
+    "description": "Meter short codes are a convenient way to access information about your electricity meter, such as your balance, consumption, and tamper status. Different meter manufacturers have different short codes, so it is important to consult your meter's manual for the specific codes for your meter.",
+    "tableCaption": "A list of meter short codes.",
+    "serialNo": "Serial No.",
+    "information": "Information",
+    "allMeters": "All Meters",
+    "legacyInhe1P": "(Old) Inhe Meter(1P)",
+    "legacyInhe3P": "(Old) Inhe Meter(3P)",
+    "legacyLinyang": "(Old) Linyang Meter",
+    "legacyEastern": "(Old) Eastern Meter(EMPP0)"
+  }
 }

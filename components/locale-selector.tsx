@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const redirectToLocale = (locale: Locale, pathname: string) => {
-  console.log(locale, pathname);
+  //console.log(locale, pathname);
   if (!pathname) return "/";
 
   const pathParts = pathname.split("/");
@@ -46,7 +46,7 @@ const LocaleSelector = ({ locale }: { locale: Locale }) => {
 
   const toggleLocale = () => {
     const newLocale =
-      currentLocale === "en" ? "bn" : currentLocale === "bn" ? "en" : "en";
+      currentLocale === "en" ? "bn" : "en";
     //console.log(currentLocale, newLocale);
     setCurrentLocale(newLocale);
     //console.log(currentLocale, newLocale);

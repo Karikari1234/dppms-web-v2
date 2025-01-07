@@ -1,23 +1,29 @@
 "use client";
 import ShortCodeTable from "@/components/ShortCodeTable";
+import { Locale, i18nConfig } from "@/i18n";
+import { getTranslation } from "@/lib/i18n/getTranslation";
 
-const MeterShortCodes = () => {
+type Props = {
+  params: {
+    locale: Locale;
+  };
+};
+
+const MeterShortCodes = async ({ params }: Props) => {
+  const { locale } = await params;
+  const translation = await getTranslation(locale);
   return (
     <div className="">
       <div className="mb-2 text-xl font-bold leading-normal animate-once md:text-left md:text-4xl md:leading-tight">
-        Meter Short Code
+        {translation("meterShortCode.title")}
       </div>
       <p
         className="mb-8 md:w-2/3
       "
       >
-        Meter short codes are a convenient way to access information about your
-        electricity meter, such as your balance, consumption, and tamper status.
-        Different meter manufacturers have different short codes, so it is
-        important to consult your meter&apos;s manual for the specific codes for
-        your meter.
+        {translation("meterShortCode.description")}
       </p>
-      <ShortCodeTable></ShortCodeTable>
+      <ShortCodeTable locale={locale}></ShortCodeTable>
     </div>
   );
 };

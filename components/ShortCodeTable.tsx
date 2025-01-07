@@ -8,13 +8,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { meterShortCodes } from "@/lib/shortcode";
+import { Locale } from "@/i18n";
+import { getTranslation } from "@/lib/i18n/getTranslation";
 
-const ShortCodeTable = () => {
+const ShortCodeTable = async ({ locale }: { locale: Locale }) => {
+  const translation = await getTranslation(locale);
   const listOfShortCode = meterShortCodes.map((item) => (
     <>
       <TableRow key={item.id}>
         <TableCell>{item.id}</TableCell>
-        <TableCell>{item.information} </TableCell>
+        <TableCell>{item.information[locale]} </TableCell>
         <TableCell>{item.hexing}</TableCell>
         <TableCell>{item.inhe1P}</TableCell>
         <TableCell>{item.inhe3P}</TableCell>
@@ -26,16 +29,16 @@ const ShortCodeTable = () => {
   return (
     <div className="">
       <Table className="">
-        <TableCaption>A list of meter short codes.</TableCaption>
+        <TableCaption>{translation("meterShortCode.tableCaption")}</TableCaption>
         <TableHeader className="">
           <TableRow className="bg-gray-100">
-            <TableHead className="">Serial No.</TableHead>
-            <TableHead className="">Information</TableHead>
-            <TableHead>All Meters</TableHead>
-            <TableHead>(Legacy) Inhe Meter(1P)</TableHead>
-            <TableHead>(Legacy) Inhe Meter(3P)</TableHead>
-            <TableHead>(Legacy) Linyang Meter</TableHead>
-            <TableHead>(Legacy) Eastern Meter(EMPP0)</TableHead>
+            <TableHead className="">{translation("meterShortCode.serialNo")}</TableHead>
+            <TableHead className="">{translation("meterShortCode.information")}</TableHead>
+            <TableHead>{translation("meterShortCode.allMeters")}</TableHead>
+            <TableHead>{translation("meterShortCode.legacyInhe1P")}</TableHead>
+            <TableHead>{translation("meterShortCode.legacyInhe3P")}</TableHead>
+            <TableHead>{translation("meterShortCode.legacyLinyang")}</TableHead>
+            <TableHead>{translation("meterShortCode.legacyEastern")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>{listOfShortCode}</TableBody>
