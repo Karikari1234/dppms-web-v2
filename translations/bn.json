@@ -130,5 +130,26 @@
       "sequence": "ক্রম",
       "grossAmount": "মোট রিচার্জের পরিমাণ",
       "energyCost": "এনার্জি খরচ"
-    }
+    },
+    "common": {
+    "currency": "টাকা",
+    "submit": "জমা দিন",
+    "reset": "রিসেট করুন",
+    "yes": "হ্যাঁ",
+    "no": "না"
+  },
+  "energyCalculator": {
+    "title": "প্রিপেইড মিটার এনার্জি ক্যালকুলেটর",
+    "rechargeAmountLabel": "মোট রিচার্জ পরিমাণ (টাকা)",
+    "rechargeAmountPlaceholder": "রিচার্জ পরিমাণ লিখুন",
+    "rechargeAmountDescription": "রিচার্জের জন্য প্রদত্ত পরিমাণ।",
+    "resultTitle": "আপনার মিটার চার্জ",
+    "demandCharge": "ডিমান্ড চার্জ",
+    "meterRent": "মিটার ভাড়া",
+    "previousMonthsCharges": "পূর্ববর্তী মাসের চার্জ",
+    "vat": "ভ্যাট",
+    "rebate": "ছাড়",
+    "totalCharge": "মোট চার্জ",
+    "totalEnergyAmount": "মোট এনার্জি পরিমাণ"
+  }
 }

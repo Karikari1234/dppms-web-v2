@@ -44,6 +44,10 @@ const formSchema = z.object({
   ownedBy: z.enum(["bpdb", "customer"], {
     required_error: "You need to select one option.",
   }),
+  previousVendingMonths: z
+    .number().min(0, {
+      message: "Previous vending months can't be less than 0.",
+    })
 });
 
 interface MeterCharges {
@@ -53,6 +57,8 @@ interface MeterCharges {
   totalCharge: number;
   rebate: number;
   totalEnergy: number;
+  previousMonthsCharges: number;
+  previousVendingMonthsCount: number;
   ownedBy?: string;
   firstTime?: string;
 }
@@ -64,6 +70,8 @@ const defaultMeterCharges: MeterCharges = {
   totalCharge: 0.0,
   rebate: 0.0,
   totalEnergy: 0.0,
+  previousMonthsCharges: 0.0,
+  previousVendingMonthsCount: 0,
   ownedBy: "",
   firstTime: "",
 };
@@ -77,13 +85,16 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     const vat: number = (values.rechargeAmount * 5) / 105;
     const demandCharge: number =
-      values.firstTime == "yes" ? values.sanctionLoad * 42 : 0.0;
+      values.firstTime == "yes" ? values.sanctionLoad * parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") : 0.0;
     const meterRent: number =
-      values.ownedBy == "bpdb" && values.firstTime == "yes" ? 40.0 : 0.0;
-    const totalCharge: number = vat + demandCharge + meterRent;
+      values.ownedBy == "bpdb" && values.firstTime == "yes" ? parseFloat( process.env.NEXT_PUBLIC_METER_RENT || "40") : 0.0;
+    const previousMonthsCharges: number = 
+      values.previousVendingMonths > 0 && values.ownedBy == "bpdb" ? values.previousVendingMonths * (parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") * values.sanctionLoad + parseFloat( process.env.NEXT_PUBLIC_METER_RENT || "40")) : values.previousVendingMonths > 0 && values.ownedBy != "bpdb" ? values.previousVendingMonths * (parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") * values.sanctionLoad) : 0.0;
+    const totalCharge: number = vat + demandCharge + meterRent + previousMonthsCharges;
     const rebate: number =
       (.5 / 100.5) * (values.rechargeAmount - vat - meterRent);
     const totalEnergy: number = values.rechargeAmount - totalCharge + rebate;
+    const previousVendingMonthsCount: number = values.previousVendingMonths;
     let result: MeterCharges = {
       ...defaultMeterCharges,
       vat: vat.toFixed(2) as unknown as number,
@@ -92,6 +103,8 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
       totalCharge: totalCharge.toFixed(2) as unknown as number,
       rebate: rebate.toFixed(2) as unknown as number,
       totalEnergy: totalEnergy.toFixed(2) as unknown as number,
+      previousMonthsCharges: previousMonthsCharges.toFixed(2) as unknown as number,
+      previousVendingMonthsCount: previousVendingMonthsCount as unknown as number
     };
     //console.log(res);
     toast({
@@ -105,9 +118,10 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
               {result.demandCharge} BDT
             </div>
             <div>Meter Rent 1P(40/Month): {result.meterRent} BDT</div>
+            <div>Previous Months Charges: {result.previousMonthsCharges} BDT ({result.previousVendingMonthsCount} Month)</div>
             <div>VAT(5%): {result.vat} BDT</div>
-            <div>Rebate(1%): -{result.rebate} BDT</div>
-	    <div>Total Charges: {result.totalCharge} BDT</div>
+            <div>Rebate(0.5%): -{result.rebate} BDT</div>
+	          <div>Total Charges: {result.totalCharge} BDT</div>
             <div className="font-semibold">
               <span className="font-semibold">Total Energy Amount:</span>{" "}
               {result.totalEnergy} BDT
@@ -157,9 +171,10 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
               {result.demandCharge} BDT
             </div>
             <div>Meter Rent 1P(40/Month): {result.meterRent} BDT</div>
+            <div>Previous Months Charges: {result.previousMonthsCharges} BDT ({result.previousVendingMonthsCount} Month)</div>
             <div>VAT(5%): {result.vat} BDT</div>
             <div>Rebate(0.5%): -{result.rebate} BDT</div>
-	    <div>Total Charges: {result.totalCharge} BDT</div>
+	          <div>Total Charges: {result.totalCharge} BDT</div>
             <div className="font-semibold">
               <span className="font-semibold">Total Energy Amount:</span>{" "}
               {result.totalEnergy} BDT
@@ -242,6 +257,25 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
                   Recharging first time will deduct meter rent and demand
                   charges.
                 </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="previousVendingMonths"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Previous Vending: How many months before</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="0"
+                    defaultValue={"0"}
+                    {...form.register("previousVendingMonths", { valueAsNumber: true })}
+                  />
+                </FormControl>
+                <FormDescription>Provide the number of months of your previous vending.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

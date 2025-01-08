@@ -130,5 +130,26 @@
   "sequence": "Sequence",
   "grossAmount": "Gross Recharge Amount",
   "energyCost": "Energy Cost"
-  }
+  },
+    "common": {
+      "currency": "BDT",
+      "submit": "Submit",
+      "reset": "Reset",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "energyCalculator": {
+      "title": "Prepaid Meter Energy Calculator",
+      "rechargeAmountLabel": "Total Recharge Amount (BDT)",
+      "rechargeAmountPlaceholder": "Enter recharge amount",
+      "rechargeAmountDescription": "Provide the amount to be recharged.",
+      "resultTitle": "Your Meter Charges",
+      "demandCharge": "Demand Charge",
+      "meterRent": "Meter Rent",
+      "previousMonthsCharges": "Previous Months Charges",
+      "vat": "VAT",
+      "rebate": "Rebate",
+      "totalCharge": "Total Charge",
+      "totalEnergyAmount": "Total Energy Amount"
+    }  
 }
