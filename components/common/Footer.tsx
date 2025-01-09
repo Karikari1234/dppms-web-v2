@@ -131,7 +131,7 @@ const Footer = async ({ locale }: { locale: Locale }) => {
             </div>
           </div>
         </div>
-        <div className="text-xs">{translation("footer.built_by")} &copy; Copyright 2023.</div>
+        <div className="text-xs">{translation("footer.built_by")} </div>
       </div>
     </footer>
   );
