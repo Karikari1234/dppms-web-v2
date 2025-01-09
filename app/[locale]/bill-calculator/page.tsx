@@ -1,5 +1,7 @@
 import { EnergyCalculatorForm } from "@/components/BillCalculator";
 import { Locale, i18nConfig } from "@/i18n";
+import { getTranslation } from "@/lib/i18n/getTranslation";
+import { get } from "http";
 import { useEffect } from "react";
 
 type Props = {
@@ -7,6 +9,19 @@ type Props = {
     locale: Locale;
   };
 };
+
+const translation = {
+  en : {
+      billCalculatorPage: {
+      "description": "LT-A Tariff Customer(Single Phase Meter) rates only."
+    }  
+  },
+  bn : {
+    billCalculatorPage : {
+    "description": "LT-A ট্যারিফ গ্রাহক (সিঙ্গেল ফেজ মিটার) এর জন্য শুধুমাত্র।"
+  }
+  }
+}
 
 const BillCalculator = async ({ params }: Props) => {
   const { locale } = await params;
@@ -16,8 +31,7 @@ const BillCalculator = async ({ params }: Props) => {
         <EnergyCalculatorForm locale={locale} />
       </div>
       <div className="text-sm">
-        <span className="text-red-500">**</span>LT-A Tariff Customer(Single
-        Phase Meter) rates only.
+        <span className="text-red-500">**</span>{translation[locale].billCalculatorPage.description}
       </div>
     </div>
   );

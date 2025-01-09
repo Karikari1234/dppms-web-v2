@@ -28,12 +28,11 @@ import {
 } from "@/components/ui/select";
 
 import { Locale } from "@/i18n";
-import { getTranslation } from "@/lib/i18n/getTranslation";
 const sourceCodePro = Source_Code_Pro({ subsets: ["latin"] });
 
 const formSchema = z.object({
   rechargeAmount: z.number().min(200, {
-    message: "Minimum 200 BDT needs to be recharged",
+    message: "Minimum 200 {t.common.currency} needs to be recharged",
   }),
   sanctionLoad: z.number().min(2, {
     message: "Sanction load can't be less than 2kWh.",
@@ -44,9 +43,10 @@ const formSchema = z.object({
   ownedBy: z.enum(["bpdb", "customer"], {
     required_error: "You need to select one option.",
   }),
-  previousVendingMonths: z.number().min(0, {
-    message: "Previous vending months can't be less than 0.",
-  }),
+  previousVendingMonths: z
+    .number().min(0, {
+      message: "Previous vending months can't be less than 0.",
+    })
 });
 
 interface MeterCharges {
@@ -75,7 +75,80 @@ const defaultMeterCharges: MeterCharges = {
   firstTime: "",
 };
 
-export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
+const translation = {
+  bn: {
+    common: {
+      currency: "টাকা",
+      submit: "জমা দিন",
+      reset: "রিসেট করুন",
+      yes: "হ্যাঁ",
+      no: "না",
+      bpdb: "BPDB",
+      customer: "গ্রাহক",
+      month: "মাস"
+    },
+    energyCalculator: {
+      title: "প্রিপেইড মিটার এনার্জি ক্যালকুলেটর",
+      rechargeAmountLabel: "মোট রিচার্জ পরিমাণ (টাকা)",
+      rechargeAmountDescription: "রিচার্জের জন্য প্রদত্ত পরিমাণ।",
+      sanctionLoadLabel: "মিটার অনুমোদিত লোড (kWh)",
+      sanctionLoadDescription: "অনুমোদিত লোডের জন্য প্রদত্ত পরিমাণ।",
+      firstTimeLabel: "এই মাসে প্রথমবার রিচার্জ করছেন?",
+      meterOwnerLabel: "মিটার মালিক",
+      previousVendingLabel: "পূর্ববর্তী ভেন্ডিং: কত মাস আগে?",
+      resultTitle: "আপনার মিটার চার্জ",
+      demandCharge: "ডিমান্ড চার্জ",
+      meterRent: "মিটার ভাড়া",
+      previousMonthsCharges: "পূর্ববর্তী মাসের চার্জ",
+      vat: "ভ্যাট",
+      rebate: "ছাড়",
+      totalCharge: "মোট চার্জ",
+      totalEnergyAmount: "মোট এনার্জি পরিমাণ",
+      firstTimeDescription: "প্রথমবার রিচার্জ করলে মিটার ভাড়া এবং ডিমান্ড চার্জ কেটে নেওয়া হবে।",
+      meterOwnerDescription: "মিটারটি BPDB বা গ্রাহকের মালিকানাধীন। যদি গ্রাহক মিটারের মালিক হন, তবে মাসিক মিটার ভাড়া চার্জ করা হবে না।",
+      previousVendingDescription: "আপনার পূর্ববর্তী ভেন্ডিং মাসের সংখ্যা প্রদান করুন।",
+      meterSelectPlaceholder: "গ্রাহক বা BPDB নির্বাচন করুন",
+    },
+  },
+  en: {
+    common: {
+      currency: "BDT",
+      submit: "Submit",
+      reset: "Reset",
+      yes: "Yes",
+      no: "No",
+      bpdp: "BPDB",
+      customer: "Customer",
+      month: "Month",
+    },
+    energyCalculator: {
+      title: "Prepaid Meter Energy Calculator",
+      rechargeAmountLabel: "Total Recharge Amount (BDT)",
+      rechargeAmountDescription: "Provide the amount to be recharged.",
+      sanctionLoadLabel: "Meter Sanction Load (kWh)",
+      sanctionLoadDescription: "Provide Sanction Load Amount.",
+      firstTimeLabel: "Is this your first recharge this month?",
+      firstTimeDescription: "Recharging first time will deduct meter rent and demand charges.",
+      meterOwnerLabel: "Meter Owner",
+      meterOwnerDescription: " Meter is owned by BPDB or customer. If customer owns the meter, then no meter rent will be charged monthly.",
+      previousVendingLabel: "Previous Vending: How many months ago?",
+      previousVendingDescription: "Provide the number of months of your previous vending.",
+      resultTitle: "Your Meter Charges",
+      demandCharge: "Demand Charge",
+      meterRent: "Meter Rent",
+      previousMonthsCharges: "Previous Months Charges",
+      vat: "VAT",
+      rebate: "Rebate",
+      totalCharge: "Total Charge",
+      totalEnergyAmount: "Total Energy Amount",
+      meterSelectPlaceholder: "Select customer or BPDB",
+    },
+  },
+}
+
+export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
+  //const translation = getTranslation(locale);
+  const t = translation[locale];
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -84,29 +157,14 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     const vat: number = (values.rechargeAmount * 5) / 105;
     const demandCharge: number =
-      values.firstTime == "yes"
-        ? values.sanctionLoad *
-          parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42")
-        : 0.0;
+      values.firstTime == "yes" ? values.sanctionLoad * parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") : 0.0;
     const meterRent: number =
-      values.ownedBy == "bpdb" && values.firstTime == "yes"
-        ? parseFloat(process.env.NEXT_PUBLIC_METER_RENT || "40")
-        : 0.0;
-    const previousMonthsCharges: number =
-      values.previousVendingMonths > 0 && values.ownedBy == "bpdb"
-        ? values.previousVendingMonths *
-          (parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") *
-            values.sanctionLoad +
-            parseFloat(process.env.NEXT_PUBLIC_METER_RENT || "40"))
-        : values.previousVendingMonths > 0 && values.ownedBy != "bpdb"
-        ? values.previousVendingMonths *
-          (parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") *
-            values.sanctionLoad)
-        : 0.0;
-    const totalCharge: number =
-      vat + demandCharge + meterRent + previousMonthsCharges;
+      values.ownedBy == "bpdb" && values.firstTime == "yes" ? parseFloat( process.env.NEXT_PUBLIC_METER_RENT || "40") : 0.0;
+    const previousMonthsCharges: number = 
+      values.previousVendingMonths > 0 && values.ownedBy == "bpdb" ? values.previousVendingMonths * (parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") * values.sanctionLoad + parseFloat( process.env.NEXT_PUBLIC_METER_RENT || "40")) : values.previousVendingMonths > 0 && values.ownedBy != "bpdb" ? values.previousVendingMonths * (parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") * values.sanctionLoad) : 0.0;
+    const totalCharge: number = vat + demandCharge + meterRent + previousMonthsCharges;
     const rebate: number =
-      (0.5 / 100.5) * (values.rechargeAmount - vat - meterRent);
+      (.5 / 100.5) * (values.rechargeAmount - vat - meterRent);
     const totalEnergy: number = values.rechargeAmount - totalCharge + rebate;
     const previousVendingMonthsCount: number = values.previousVendingMonths;
     let result: MeterCharges = {
@@ -117,33 +175,28 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
       totalCharge: totalCharge.toFixed(2) as unknown as number,
       rebate: rebate.toFixed(2) as unknown as number,
       totalEnergy: totalEnergy.toFixed(2) as unknown as number,
-      previousMonthsCharges: previousMonthsCharges.toFixed(
-        2,
-      ) as unknown as number,
-      previousVendingMonthsCount:
-        previousVendingMonthsCount as unknown as number,
+      previousMonthsCharges: previousMonthsCharges.toFixed(2) as unknown as number,
+      previousVendingMonthsCount: previousVendingMonthsCount as unknown as number
     };
     //console.log(res);
     toast({
-      title: "Your Meter Charges: ",
+      title: t.energyCalculator.resultTitle,
       description: (
         <div className={`text-md rounded-sm bg-toast-success p-2 text-white`}>
           <div className="space-y-1">
+            
             <div>
-              Demand Charge (Sanction Load*42/kWh Monthly):{" "}
-              {result.demandCharge} BDT
+            {t.energyCalculator.demandCharge}:{" "}
+              {result.demandCharge} {t.common.currency}
             </div>
-            <div>Meter Rent 1P(40/Month): {result.meterRent} BDT</div>
-            <div>
-              Previous Months Charges: {result.previousMonthsCharges} BDT (
-              {result.previousVendingMonthsCount} Month)
-            </div>
-            <div>VAT(5%): {result.vat} BDT</div>
-            <div>Rebate(0.5%): -{result.rebate} BDT</div>
-            <div>Total Charges: {result.totalCharge} BDT</div>
+            <div>{t.energyCalculator.meterRent}: {result.meterRent} {t.common.currency}</div>
+            <div>{t.energyCalculator.previousMonthsCharges}: {result.previousMonthsCharges} {t.common.currency} ({result.previousVendingMonthsCount} {t.common.month})</div>
+            <div>{t.energyCalculator.vat}: {result.vat} {t.common.currency}</div>
+            <div>{t.energyCalculator.rebate}: -{result.rebate} {t.common.currency}</div>
+	          <div>{t.energyCalculator.totalCharge}: {result.totalCharge} {t.common.currency}</div>
             <div className="font-semibold">
-              <span className="font-semibold">Total Energy Amount:</span>{" "}
-              {result.totalEnergy} BDT
+              <span className="font-semibold">{t.energyCalculator.totalEnergyAmount}:</span>{" "}
+              {result.totalEnergy} {t.common.currency}
             </div>
           </div>
         </div>
@@ -163,7 +216,7 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
   }
 
   useEffect(() => {
-    //window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
 
   const [result, setResult] = useState(defaultMeterCharges);
@@ -176,7 +229,7 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
         className="space-y-8"
         key={key}
       >
-        <h1 className="text-3xl font-bold">Prepaid Meter Energy Calculator</h1>
+        <h1 className="text-3xl font-bold">{t.energyCalculator.title}</h1>
         <div
           className={`rounded-sm ${
             result == defaultMeterCharges
@@ -186,20 +239,17 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
         >
           <div className="space-y-1">
             <div>
-              Demand Charge (Sanction Load*42/kWh Monthly):{" "}
-              {result.demandCharge} BDT
+            {t.energyCalculator.rechargeAmountLabel}:{" "}
+              {result.demandCharge} {t.common.currency}
             </div>
-            <div>Meter Rent 1P(40/Month): {result.meterRent} BDT</div>
-            <div>
-              Previous Months Charges: {result.previousMonthsCharges} BDT (
-              {result.previousVendingMonthsCount} Month)
-            </div>
-            <div>VAT(5%): {result.vat} BDT</div>
-            <div>Rebate(0.5%): -{result.rebate} BDT</div>
-            <div>Total Charges: {result.totalCharge} BDT</div>
+            <div>{t.energyCalculator.meterRent}: {result.meterRent} {t.common.currency}</div>
+            <div>{t.energyCalculator.previousMonthsCharges}: {result.previousMonthsCharges} {t.common.currency} ({result.previousVendingMonthsCount} {t.common.month})</div>
+            <div>{t.energyCalculator.vat}: {result.vat} {t.common.currency}</div>
+            <div>{t.energyCalculator.rebate}: -{result.rebate} {t.common.currency}</div>
+	          <div>{t.energyCalculator.totalCharge}: {result.totalCharge} {t.common.currency}</div>
             <div className="font-semibold">
-              <span className="font-semibold">Total Energy Amount:</span>{" "}
-              {result.totalEnergy} BDT
+              <span className="font-semibold">{t.energyCalculator.totalEnergyAmount}:</span>{" "}
+              {result.totalEnergy} {t.common.currency}
             </div>
           </div>
         </div>
@@ -209,7 +259,7 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
             name="rechargeAmount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Total Recharge Amount (BDT)</FormLabel>
+                <FormLabel>{t.energyCalculator.rechargeAmountLabel}</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -220,7 +270,7 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
                   />
                 </FormControl>
                 <FormDescription>
-                  Provide Amount To Be Recharged.
+                  {t.energyCalculator.rechargeAmountDescription}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -232,7 +282,7 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
             name="sanctionLoad"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Meter Sanction Load (in kWh)</FormLabel>
+                <FormLabel>{t.energyCalculator.sanctionLoadLabel}</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -241,7 +291,7 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
                     {...form.register("sanctionLoad", { valueAsNumber: true })}
                   />
                 </FormControl>
-                <FormDescription>Provide Sanction Load Amount.</FormDescription>
+                <FormDescription>{t.energyCalculator.sanctionLoadDescription}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -253,7 +303,7 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
             render={({ field }) => (
               <FormItem className="space-y-3">
                 <FormLabel>
-                  Is it your first time meter recharge this month?
+                {t.energyCalculator.firstTimeLabel}
                 </FormLabel>
                 <FormControl>
                   <RadioGroup
@@ -265,19 +315,18 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
                       <FormControl>
                         <RadioGroupItem value="yes" />
                       </FormControl>
-                      <FormLabel className="font-normal">Yes</FormLabel>
+                      <FormLabel className="font-normal">{t.common.yes}</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
                         <RadioGroupItem value="no" />
                       </FormControl>
-                      <FormLabel className="font-normal">No</FormLabel>
+                      <FormLabel className="font-normal">{t.common.no}</FormLabel>
                     </FormItem>
                   </RadioGroup>
                 </FormControl>
                 <FormDescription>
-                  Recharging first time will deduct meter rent and demand
-                  charges.
+                  {t.energyCalculator.firstTimeDescription}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -288,20 +337,16 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
             name="previousVendingMonths"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Previous Vending: How many months before</FormLabel>
+                <FormLabel>{t.energyCalculator.previousVendingLabel}</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     placeholder="0"
                     defaultValue={"0"}
-                    {...form.register("previousVendingMonths", {
-                      valueAsNumber: true,
-                    })}
+                    {...form.register("previousVendingMonths", { valueAsNumber: true })}
                   />
                 </FormControl>
-                <FormDescription>
-                  Provide the number of months of your previous vending.
-                </FormDescription>
+                <FormDescription>{t.energyCalculator.previousVendingDescription}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -312,24 +357,23 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
             name="ownedBy"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Meter owner</FormLabel>
+                <FormLabel>{t.energyCalculator.meterOwnerLabel}</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select customer or BPDB" />
+                      <SelectValue placeholder={t.energyCalculator.meterSelectPlaceholder} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="customer">Customer</SelectItem>
+                    <SelectItem value="customer">{t.common.customer}</SelectItem>
                     <SelectItem value="bpdb">BPDB</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormDescription>
-                  Meter is owned by BPDB or customer. If customer owns the
-                  meter, then no meter rent will be charged monthly.
+                {t.energyCalculator.meterOwnerDescription}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -339,14 +383,14 @@ export async function EnergyCalculatorForm({ locale }: { locale: Locale }) {
 
         <div className="space-x-4">
           <Button className="bg-green" type="submit">
-            Submit
+          {t.common.submit}
           </Button>
           <Button
             type="reset"
             className="bg-gray-200 text-black hover:bg-gray-300"
             onClick={onReset}
           >
-            Reset
+            {t.common.reset}
           </Button>
         </div>
       </form>
