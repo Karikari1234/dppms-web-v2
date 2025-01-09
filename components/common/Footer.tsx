@@ -84,12 +84,12 @@ const Footer = async ({ locale }: { locale: Locale }) => {
                   </a>
                 </li>
                 <li>
-                  <Link className="text-sm font-light" href="/bill-calculator">
+                  <Link className="text-sm font-light" href={`/${locale}/bill-calculator`}>
                   {translation("footer.meter_charge_calculator")}
                   </Link>
                 </li>
                 <li>
-                  <a className="text-sm font-light" href="/meter-short-codes">
+                  <a className="text-sm font-light" href={`/${locale}/meter-short-codes`}>
                   {translation("footer.meter_short_codes")}
                   </a>
                 </li>
@@ -100,7 +100,7 @@ const Footer = async ({ locale }: { locale: Locale }) => {
               <div className="mb-1 font-semibold md:mb-8">{translation("footer.about")}</div>
               <ul className="flex flex-col space-y-2 md:space-y-4">
                 <li>
-                  <Link className="text-sm font-light" href="/about">
+                  <Link className="text-sm font-light" href={`/${locale}/about`}>
                   {translation("footer.why_prepaid")}
                   </Link>
                 </li>
@@ -112,7 +112,7 @@ const Footer = async ({ locale }: { locale: Locale }) => {
               <div className="mb-1 font-semibold md:mb-8">{translation("footer.help")}</div>
               <ul className="flex flex-col space-y-2 md:space-y-4">
                 <li>
-                  <Link className="text-sm font-light" href="/faq">
+                  <Link className="text-sm font-light" href={`/${locale}/faq`}>
                   {translation("footer.faq")}
                   </Link>
                 </li>
