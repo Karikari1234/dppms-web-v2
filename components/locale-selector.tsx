@@ -3,12 +3,11 @@
 import { i18nConfig, Locale } from "@/i18n";
 import { getTranslation, TranslationKey } from "@/lib/i18n/getTranslation";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const redirectToLocale = (locale: Locale, pathname: string) => {
-  //console.log(locale, pathname);
-  if (!pathname) return "/";
+  if (!pathname || pathname === "/") return `/${locale}`;
 
   const pathParts = pathname.split("/");
   pathParts[1] = locale;
@@ -18,10 +17,9 @@ const redirectToLocale = (locale: Locale, pathname: string) => {
 
 const LocaleSelector = ({ locale }: { locale: Locale }) => {
   const pathname = usePathname();
+  const router = useRouter();
   // console.log(pathname);
-  const [currentLocale, setCurrentLocale] = useState<Locale>(
-    pathname.includes("en") ? "bn" : pathname.includes("bn") ? "en" : "en",
-  );
+  const [currentLocale, setCurrentLocale] = useState<Locale>(locale);
   const [translation, setTranslation] = useState<TranslationKey>(
     () => (key: string) => key,
   );
@@ -45,11 +43,10 @@ const LocaleSelector = ({ locale }: { locale: Locale }) => {
   };
 
   const toggleLocale = () => {
-    const newLocale =
-      currentLocale === "en" ? "bn" : "en";
-    //console.log(currentLocale, newLocale);
+    const newLocale = currentLocale === "en" ? "bn" : "en";
     setCurrentLocale(newLocale);
-    //console.log(currentLocale, newLocale);
+    const newPath = redirectToLocale(newLocale, pathname);
+    router.push(newPath);
   };
 
   return (
