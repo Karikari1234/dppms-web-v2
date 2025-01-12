@@ -55,7 +55,7 @@ const translation = {
   bn: {
     title: "সর্বশেষ ৩টি রিচার্জ টোকেন নম্বর চেক করুন",
     meterNoLabel: "মিটার নম্বর",
-    meterNoPlaceholder: "আপনার ১২ ডিজিটের মিটার নম্বর দিন",
+    meterNoPlaceholder: "আপনার ১২ ডিজিটের মিটার নম্বর দিন (ইংরেজীতে)",
     meterNoDescription: "মিটার নম্বর প্রদান করুন।",
     submit: "জমা দিন",
     captchaError: "দয়া করে নিশ্চিত করুন যে আপনি রোবট নন।",

@@ -32,14 +32,13 @@ const HeroSection = async ({ locale }: { locale: Locale }) => {
         </p>
         <div className="flex justify-center gap-1 md:justify-normal md:gap-6">
           <Link
-            href="/bill-calculator
-          "
+            href={`/${locale}/bill-calculator`}
           >
             <button className="rounded border border-green bg-green px-4 py-2 text-base font-semibold text-white shadow-2xl hover:border-transparent hover:bg-green-deep md:text-base">
               {translation("hero_section.calculate_meter_charges_button")}
             </button>
           </Link>
-          <Link href="/token-check">
+          <Link href={`/${locale}/token-check`}>
             <button className="rounded border border-green bg-transparent px-4 py-2 text-base font-semibold text-green md:text-base">
               {translation("hero_section.check_last_three_token_button")}
             </button>
