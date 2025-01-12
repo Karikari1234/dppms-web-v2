@@ -1,4 +1,3 @@
-"use client";
 import TokenPageWrapperComponent from "@/components/TokenPageWrapperComponent";
 import { Locale, i18nConfig } from "@/i18n";
 

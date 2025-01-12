@@ -88,12 +88,12 @@ export function CheckInputForm({ locale }: { locale: Locale }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      //if (isVerified) 
-      if (true){
+      //if (isVerified)
+      if (true) {
         const resObj = await mOnSubmit(values);
         setResponseBody(null);
         setResponseBody(resObj);
-        router.push(`/token-check/tokens`);
+        router.push(`/${locale}/token-check/tokens`);
       } else {
         toast({
           title: translation[locale].captchaError,
