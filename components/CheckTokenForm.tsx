@@ -88,11 +88,12 @@ export function CheckInputForm({ locale }: { locale: Locale }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      if (isVerified) {
+      //if (isVerified) 
+      if (true){
         const resObj = await mOnSubmit(values);
         setResponseBody(null);
         setResponseBody(resObj);
-        router.push("/token-check/tokens");
+        router.push(`/token-check/tokens`);
       } else {
         toast({
           title: translation[locale].captchaError,
@@ -147,7 +148,8 @@ export function CheckInputForm({ locale }: { locale: Locale }) {
           <Button
             className="w-full bg-green"
             type="submit"
-            disabled={!isVerified || form.formState.isSubmitting}
+            // disabled={!isVerified || form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting}
           >
             {form.formState.isSubmitting && (
               <div
