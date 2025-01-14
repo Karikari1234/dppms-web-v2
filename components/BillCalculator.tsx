@@ -50,6 +50,7 @@ const formSchema = z.object({
 });
 
 interface MeterCharges {
+  rechargeAmount: number;
   vat: number;
   demandCharge: number;
   meterRent: number;
@@ -63,6 +64,7 @@ interface MeterCharges {
 }
 
 const defaultMeterCharges: MeterCharges = {
+  rechargeAmount: 0.0,
   vat: 0.0,
   demandCharge: 0.0,
   meterRent: 0.0,
@@ -169,6 +171,7 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
     const previousVendingMonthsCount: number = values.previousVendingMonths;
     let result: MeterCharges = {
       ...defaultMeterCharges,
+      rechargeAmount: values.rechargeAmount.toFixed(2) as unknown as number,
       vat: vat.toFixed(2) as unknown as number,
       demandCharge: demandCharge.toFixed(2) as unknown as number,
       meterRent: meterRent.toFixed(2) as unknown as number,
@@ -185,6 +188,10 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
         <div className={`text-md rounded-sm bg-toast-success p-2 text-white`}>
           <div className="space-y-1">
             
+          <div>
+            {t.energyCalculator.rechargeAmountLabel}:{" "}
+              {result.rechargeAmount} {t.common.currency}
+            </div>
             <div>
             {t.energyCalculator.demandCharge}:{" "}
               {result.demandCharge} {t.common.currency}
@@ -241,6 +248,10 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
           <div className="space-y-1">
             <div>
             {t.energyCalculator.rechargeAmountLabel}:{" "}
+              {result.rechargeAmount} {t.common.currency}
+            </div>
+            <div>
+            {t.energyCalculator.demandCharge}:{" "}
               {result.demandCharge} {t.common.currency}
             </div>
             <div>{t.energyCalculator.meterRent}: {result.meterRent} {t.common.currency}</div>
