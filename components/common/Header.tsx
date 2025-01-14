@@ -135,7 +135,7 @@ const Header = async ({ locale }: { locale: Locale }) => {
           {topMenu.map((item) => (
             <li
               key={item.title[locale]}
-              className="px-4 py-2 text-center hover:bg-white hover:text-green-light"
+              className="px-4 py-2 text-center hover:bg-white hover:text-green-light md:text-lg"
             >
               <Link
                 href={item.title[locale] === 'BPDB Care Point' || item.title[locale] === 'বিপিডিবি কেয়ার পয়েন্ট' ? `${item.route}`: `/${locale}${item.route}`}
