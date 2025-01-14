@@ -221,6 +221,7 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
 
   const [result, setResult] = useState(defaultMeterCharges);
   const [key, setKey] = useState(0);
+  const [firstTime, setFirstTime] = useState<string>("no");
 
   return (
     <Form {...form}>
@@ -307,7 +308,10 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
                 </FormLabel>
                 <FormControl>
                   <RadioGroup
-                    onValueChange={field.onChange}
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      setFirstTime(value); // Update state
+                    }}
                     defaultValue={field.value}
                     className="flex flex-col space-y-1"
                   >
@@ -332,6 +336,8 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
               </FormItem>
             )}
           />
+
+          {firstTime === "yes" && (
           <FormField
             control={form.control}
             name="previousVendingMonths"
@@ -351,6 +357,7 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
               </FormItem>
             )}
           />
+          )}
 
           <FormField
             control={form.control}
@@ -379,6 +386,7 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
               </FormItem>
             )}
           />
+
         </div>
 
         <div className="space-x-4">
