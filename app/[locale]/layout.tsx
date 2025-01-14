@@ -32,13 +32,13 @@ type Props = {
 
 export default async function RootLayout({ children, params }: Props) {
   const { locale } = await params;
-  
+
   return (
     <html lang={locale}>
       <head>
         <title>BPDB Prepaid Metering System Website</title>
       </head>
-      <body className={`${poppins.className} relative`}>
+      <body className={`${locale == "en" ? poppins.className : null} relative`}>
         <div className="hidden md:block">
           <Header locale={locale} />
         </div>
@@ -49,7 +49,7 @@ export default async function RootLayout({ children, params }: Props) {
         <main className="w-full px-1 md:mx-auto md:w-5/6 md:p-0 ">
           {children}
         </main>
-        <Footer locale={locale}/>
+        <Footer locale={locale} />
         <div className="hidden md:block">
           <Toaster />
         </div>
