@@ -10,25 +10,30 @@ import { NextRequest } from 'next/server';
  */
 export const getMatchingLocale = (request: NextRequest): Locale => {
   // Extract the Accept-Language header from the request
-  const acceptLanguage = request.headers.get('Accept-Language');
+  const acceptLanguage = request.headers.get("Accept-Language");
 
   // Initialize a Negotiator instance with the Accept-Language header to
   // get the list of user's preferred locales.
   const userLocales = new Negotiator({
-    headers: { 'accept-language': acceptLanguage || '' },
+    headers: { "accept-language": acceptLanguage || "" },
   }).languages();
 
   // Prepare the list of locales available in the app
   const appLocales: string[] = i18nConfig.locales.map(
-    (locale: Locale) => locale
+    (locale: Locale) => locale,
   );
+
+  // Check if the default locale is in the user's preferred locales
+  if (!userLocales.includes(i18nConfig.defaultLocale)) {
+    return i18nConfig.defaultLocale;
+  }
 
   // Match the user's locales against the app's locales to find the best match
   // If no match is found, use the default locale
   const localeMatch: Locale = match(
     userLocales,
     appLocales,
-    i18nConfig.defaultLocale
+    i18nConfig.defaultLocale,
   ) as Locale;
 
   // Return the best matching locale
