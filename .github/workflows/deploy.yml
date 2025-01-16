@@ -1,0 +1,46 @@
+name: CI/CD Deployment for Next.js App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy Next.js App
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout Code
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up SSH
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Step 3: Deploy to Server
+      - name: Deploy to Server
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          ssh $SSH_USER@$SSH_HOST << 'EOF'
+          # Navigate to the project directory
+          cd ../../opt/DppmsWeb/prepaid-meter-website/
+
+          # Pull the latest changes from the repository
+          git pull origin main
+
+          # Build the Docker image
+          docker build -t nextjs-app:latest .
+
+          # Stop and remove the current container
+          docker stop nextjs-container || true
+          docker rm nextjs-container || true
+
+          # Run a new container with the updated image
+          docker run -d --name nextjs-container -p 3001:3001 nextjs-app:latest
+          EOF
