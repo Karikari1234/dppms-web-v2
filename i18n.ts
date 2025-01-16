@@ -2,7 +2,7 @@
 // Exported as const to be read-only.
 export const i18nConfig = {
   // Sets a default locale.
-  defaultLocale: "en",
+  defaultLocale: "bn",
   // Supported locales found in @/translations directory.
   locales: ["en", "bn"],
 } as const;
