@@ -90,23 +90,27 @@ const TokenInfoTable = async (props: Props) => {
             </TableCaption>
             <TableHeader className="">
               <TableRow className="bg-gray-100">
-                <TableHead className="border-slate-300 border">
-                  {translation("tokenInfo.date")}
+                <TableHead className="border-slate-300 border font-bold items-center justify-center">
+                  {/* {translation("tokenInfo.date")} */}
+                  Date
                 </TableHead>
-                <TableHead className="border-slate-300 border">
-                  {translation("tokenInfo.tokenNumber")}
+                <TableHead className="border-slate-300 border font-bold items-center justify-center">
+                  {/* {translation("tokenInfo.tokenNumber")} */}
+                  Token No.
                 </TableHead>
-                <TableHead className="border-slate-300 border">
-                  {translation("tokenInfo.sequence")}
+                <TableHead className="border-slate-300 border font-bold items-center justify-center">
+                  {/* {translation("tokenInfo.sequence")} */}
+                  Sequence
                 </TableHead>
-                <TableHead className="border-slate-300 border">
-                  {translation("tokenInfo.grossAmount")}
+                <TableHead className="border-slate-300 border font-bold items-center justify-center">
+                  {/* {translation("tokenInfo.grossAmount")} */}
+                  Gross Recharge Amount
                 </TableHead>
                 {tokenInfo.length > 0 ? (
                   tokenInfo[0].tariffFees.tariffFee?.map(
                     (tariff: TariffFee) => (
                       <TableHead
-                        className="border-slate-300 border"
+                        className="border-slate-300 border font-bold items-center justify-center"
                         key={tariff.itemName._text}
                       >
                         {tariff.itemName._text}
@@ -116,8 +120,9 @@ const TokenInfoTable = async (props: Props) => {
                 ) : (
                   <></>
                 )}
-                <TableHead className="border-slate-300 border">
-                  {translation("tokenInfo.energyCost")}
+                <TableHead className="border-slate-300 border font-bold items-center justify-center">
+                  {/* {translation("tokenInfo.energyCost")} */}
+                  Energy Cost
                 </TableHead>
               </TableRow>
             </TableHeader>

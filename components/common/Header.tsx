@@ -8,6 +8,7 @@ import { topMenu } from "@/lib/nav-menu";
 
 const Header = async ({ locale }: { locale: Locale }) => {
   const translation = await getTranslation(locale);
+  
   // const mlocale = useLocale();
   // const t = useTranslations("Header");
   // const router = useRouter();

@@ -86,6 +86,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "NotoSansBengali";
+  src: url("/fonts/NotoSansBengali.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 html[lang="bn"] {
-  font-family: "SolaimanLipi", sans-serif !important;
+  font-family: "NotoSansBengali", "SolaimanLipi", sans-serif !important;
 }

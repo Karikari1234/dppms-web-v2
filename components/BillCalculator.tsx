@@ -26,7 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
+import { format, isBefore, parseISO, startOfMonth, subMonths, differenceInMonths } from "date-fns";
 import { Locale } from "@/i18n";
 const sourceCodePro = Source_Code_Pro({ subsets: ["latin"] });
 
@@ -43,10 +43,19 @@ const formSchema = z.object({
   ownedBy: z.enum(["bpdb", "customer"], {
     required_error: "You need to select one option.",
   }),
-  previousVendingMonths: z
-    .number().min(0, {
-      message: "Previous vending months can't be less than 0.",
-    })
+  // previousVendingMonths: z
+  //   .number().min(0, {
+  //     message: "Previous vending months can't be less than 0.",
+  //   }),
+    previousVendingDate: z
+    .date()
+    .refine((date) => {
+      //const selectedDate = parseISO(date);
+      const currentMonthStart = startOfMonth(new Date());
+      return isBefore(date, currentMonthStart);
+    }, {
+      message: "The date must be from a previous month.",
+    }),
 });
 
 interface MeterCharges {
@@ -57,6 +66,8 @@ interface MeterCharges {
   totalCharge: number;
   rebate: number;
   totalEnergy: number;
+  previousMonthsDemandCharge: number;
+  previousMonthsMeterCharge: number;
   previousMonthsCharges: number;
   previousVendingMonthsCount: number;
   ownedBy?: string;
@@ -71,6 +82,8 @@ const defaultMeterCharges: MeterCharges = {
   totalCharge: 0.0,
   rebate: 0.0,
   totalEnergy: 0.0,
+  previousMonthsDemandCharge: 0.0,
+  previousMonthsMeterCharge: 0.0,
   previousMonthsCharges: 0.0,
   previousVendingMonthsCount: 0,
   ownedBy: "",
@@ -85,7 +98,7 @@ const translation = {
       reset: "রিসেট করুন",
       yes: "হ্যাঁ",
       no: "না",
-      bpdb: "BPDB",
+      bpdb: "বিউবো",
       customer: "গ্রাহক",
       month: "মাস"
     },
@@ -97,19 +110,21 @@ const translation = {
       sanctionLoadDescription: "অনুমোদিত লোডের জন্য প্রদত্ত পরিমাণ।",
       firstTimeLabel: "এই মাসে প্রথমবার রিচার্জ করছেন?",
       meterOwnerLabel: "মিটার মালিক",
-      previousVendingLabel: "পূর্ববর্তী ভেন্ডিং: কত মাস আগে?",
+      previousVendingLabel: "পূর্ববর্তী ভেন্ডিং এর তারিখ?",
       resultTitle: "আপনার মিটার চার্জ",
       demandCharge: "ডিমান্ড চার্জ",
       meterRent: "মিটার ভাড়া",
-      previousMonthsCharges: "পূর্ববর্তী মাসের চার্জ",
+      previousMonthsDemandCharges: "মোট বকেয়া ডিমান্ড চার্জ",
+      previousMonthsMeterCharges: "মোট বকেয়া মিটার ভাড়া",
+      previousMonthsCharges: "মোট বকেয়া চার্জ",
       vat: "ভ্যাট",
       rebate: "ছাড়",
       totalCharge: "মোট চার্জ",
       totalEnergyAmount: "মোট এনার্জি পরিমাণ",
       firstTimeDescription: "প্রথমবার রিচার্জ করলে মিটার ভাড়া এবং ডিমান্ড চার্জ কেটে নেওয়া হবে।",
-      meterOwnerDescription: "মিটারটি BPDB বা গ্রাহকের মালিকানাধীন। যদি গ্রাহক মিটারের মালিক হন, তবে মাসিক মিটার ভাড়া চার্জ করা হবে না।",
-      previousVendingDescription: "আপনার পূর্ববর্তী ভেন্ডিং মাসের সংখ্যা প্রদান করুন।",
-      meterSelectPlaceholder: "গ্রাহক বা BPDB নির্বাচন করুন",
+      meterOwnerDescription: "মিটারটি বিউবো বা গ্রাহকের মালিকানাধীন। যদি গ্রাহক মিটারের মালিক হন, তবে মাসিক মিটার ভাড়া চার্জ করা হবে না।",
+      previousVendingDescription: "আপনার পূর্ববর্তী ভেন্ডিং এর তারিখ প্রদান করুন।",
+      meterSelectPlaceholder: "গ্রাহক বা বিউবো নির্বাচন করুন",
     },
   },
   en: {
@@ -119,7 +134,7 @@ const translation = {
       reset: "Reset",
       yes: "Yes",
       no: "No",
-      bpdp: "BPDB",
+      bpdb: "BPDB",
       customer: "Customer",
       month: "Month",
     },
@@ -133,12 +148,14 @@ const translation = {
       firstTimeDescription: "Recharging first time will deduct meter rent and demand charges.",
       meterOwnerLabel: "Meter Owner",
       meterOwnerDescription: " Meter is owned by BPDB or customer. If customer owns the meter, then no meter rent will be charged monthly.",
-      previousVendingLabel: "Previous Vending: How many months ago?",
-      previousVendingDescription: "Provide the number of months of your previous vending.",
+      previousVendingLabel: "Previous Vending Date?",
+      previousVendingDescription: "Provide the date of your previous vending.",
       resultTitle: "Your Meter Charges",
       demandCharge: "Demand Charge",
       meterRent: "Meter Rent",
-      previousMonthsCharges: "Previous Months Charges",
+      previousMonthsDemandCharges: "Total Arrear Demand Charges",
+      previousMonthsMeterCharges: "Total Arrear Meter Rents",
+      previousMonthsCharges: "Total Arrear Charges",
       vat: "VAT",
       rebate: "Rebate",
       totalCharge: "Total Charge",
@@ -147,6 +164,32 @@ const translation = {
     },
   },
 }
+
+function calculateMonthDifferenceFromSysdate(inputDate: Date): number {
+  const sysdate = new Date(); // System date
+
+  // Validate the input date
+  if (isNaN(inputDate.getTime())) {
+    throw new Error("Invalid date format. Please provide a valid date.");
+  }
+
+  // Extract year and month from both dates
+  const currentYear = sysdate.getFullYear();
+  const currentMonth = sysdate.getMonth(); // 0-based (January = 0)
+  const inputYear = inputDate.getFullYear();
+  const inputMonth = inputDate.getMonth(); // 0-based
+
+  // Calculate the total months for both dates
+  const totalMonthsSysdate = currentYear * 12 + currentMonth;
+  const totalMonthsInputDate = inputYear * 12 + inputMonth;
+
+  // Calculate the difference
+  const monthDifference = totalMonthsSysdate - totalMonthsInputDate;
+
+  // Ensure the result is non-negative
+  return monthDifference > 0 ? monthDifference : 0;
+}
+
 
 export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
   //const translation = getTranslation(locale);
@@ -157,18 +200,22 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
   //const toast = useToast();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    const previousVendingMonths: number = calculateMonthDifferenceFromSysdate(values.previousVendingDate) - 1;
+    //console.log(previousVendingMonths);
     const vat: number = (values.rechargeAmount * 5) / 105;
     const demandCharge: number =
       values.firstTime == "yes" ? values.sanctionLoad * parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") : 0.0;
     const meterRent: number =
       values.ownedBy == "bpdb" && values.firstTime == "yes" ? parseFloat( process.env.NEXT_PUBLIC_METER_RENT || "40") : 0.0;
-    const previousMonthsCharges: number = 
-      values.previousVendingMonths > 0 && values.ownedBy == "bpdb" ? values.previousVendingMonths * (parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") * values.sanctionLoad + parseFloat( process.env.NEXT_PUBLIC_METER_RENT || "40")) : values.previousVendingMonths > 0 && values.ownedBy != "bpdb" ? values.previousVendingMonths * (parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") * values.sanctionLoad) : 0.0;
+    const previousVendingMonthsDemandCharge: number = previousVendingMonths > 0 ? previousVendingMonths * (parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") * values.sanctionLoad) : 0.0;
+    const previousVendingMonthsMeterCharge: number = previousVendingMonths > 0 && values.ownedBy == "bpdb" ? previousVendingMonths * (parseFloat(process.env.NEXT_PUBLIC_METER_RENT || "40")) : 0.0;
+    const previousMonthsCharges: number = previousVendingMonthsDemandCharge + previousVendingMonthsMeterCharge;
+      //previousVendingMonths > 0 && values.ownedBy == "bpdb" ? previousVendingMonths * (parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") * values.sanctionLoad + parseFloat( process.env.NEXT_PUBLIC_METER_RENT || "40")) : previousVendingMonths > 0 && values.ownedBy != "bpdb" ? previousVendingMonths * (parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") * values.sanctionLoad) : 0.0;
     const totalCharge: number = vat + demandCharge + meterRent + previousMonthsCharges;
     const rebate: number =
       (.5 / 100.5) * (values.rechargeAmount - vat - meterRent);
     const totalEnergy: number = values.rechargeAmount - totalCharge + rebate;
-    const previousVendingMonthsCount: number = values.previousVendingMonths;
+    const previousVendingMonthsCount: number = previousVendingMonths;
     let result: MeterCharges = {
       ...defaultMeterCharges,
       rechargeAmount: values.rechargeAmount.toFixed(2) as unknown as number,
@@ -178,6 +225,8 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
       totalCharge: totalCharge.toFixed(2) as unknown as number,
       rebate: rebate.toFixed(2) as unknown as number,
       totalEnergy: totalEnergy.toFixed(2) as unknown as number,
+      previousMonthsDemandCharge: previousVendingMonthsDemandCharge.toFixed(2) as unknown as number,
+      previousMonthsMeterCharge:  previousVendingMonthsMeterCharge.toFixed(2) as unknown as number,
       previousMonthsCharges: previousMonthsCharges.toFixed(2) as unknown as number,
       previousVendingMonthsCount: previousVendingMonthsCount as unknown as number
     };
@@ -197,7 +246,9 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
               {result.demandCharge} {t.common.currency}
             </div>
             <div>{t.energyCalculator.meterRent}: {result.meterRent} {t.common.currency}</div>
-            <div>{t.energyCalculator.previousMonthsCharges}: {result.previousMonthsCharges} {t.common.currency} ({result.previousVendingMonthsCount} {t.common.month})</div>
+            <div>{t.energyCalculator.previousMonthsDemandCharges} ({result.previousVendingMonthsCount} {t.common.month}): {result.previousMonthsDemandCharge} {t.common.currency}</div>
+            <div>{t.energyCalculator.previousMonthsMeterCharges} ({result.previousVendingMonthsCount} {t.common.month}): {result.previousMonthsMeterCharge} {t.common.currency}</div>
+            {/* <div>{t.energyCalculator.previousMonthsCharges} ({result.previousVendingMonthsCount} {t.common.month}): {result.previousMonthsCharges} {t.common.currency}</div> */}
             <div>{t.energyCalculator.vat}: {result.vat} {t.common.currency}</div>
             <div>{t.energyCalculator.rebate}: -{result.rebate} {t.common.currency}</div>
 	          <div>{t.energyCalculator.totalCharge}: {result.totalCharge} {t.common.currency}</div>
@@ -255,7 +306,9 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
               {result.demandCharge} {t.common.currency}
             </div>
             <div>{t.energyCalculator.meterRent}: {result.meterRent} {t.common.currency}</div>
-            <div>{t.energyCalculator.previousMonthsCharges}: {result.previousMonthsCharges} {t.common.currency} ({result.previousVendingMonthsCount} {t.common.month})</div>
+            <div>{t.energyCalculator.previousMonthsDemandCharges} ({result.previousVendingMonthsCount} {t.common.month}): {result.previousMonthsDemandCharge} {t.common.currency}</div>
+            <div>{t.energyCalculator.previousMonthsMeterCharges} ({result.previousVendingMonthsCount} {t.common.month}): {result.previousMonthsMeterCharge} {t.common.currency}</div>
+            {/* <div>{t.energyCalculator.previousMonthsCharges} ({result.previousVendingMonthsCount} {t.common.month}): {result.previousMonthsCharges} {t.common.currency}</div> */}
             <div>{t.energyCalculator.vat}: {result.vat} {t.common.currency}</div>
             <div>{t.energyCalculator.rebate}: -{result.rebate} {t.common.currency}</div>
 	          <div>{t.energyCalculator.totalCharge}: {result.totalCharge} {t.common.currency}</div>
@@ -351,16 +404,16 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
           {firstTime === "yes" && (
           <FormField
             control={form.control}
-            name="previousVendingMonths"
+            name="previousVendingDate"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t.energyCalculator.previousVendingLabel}</FormLabel>
                 <FormControl>
                   <Input
-                    type="number"
-                    placeholder="0"
-                    defaultValue={"0"}
-                    {...form.register("previousVendingMonths", { valueAsNumber: true })}
+                    type="date"
+                    // placeholder="0"
+                    // defaultValue={"0"}
+                    {...form.register("previousVendingDate", { valueAsDate: true })}
                   />
                 </FormControl>
                 <FormDescription>{t.energyCalculator.previousVendingDescription}</FormDescription>
@@ -387,7 +440,7 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="customer">{t.common.customer}</SelectItem>
-                    <SelectItem value="bpdb">BPDB</SelectItem>
+                    <SelectItem value="bpdb">{t.common.bpdb}</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormDescription>
