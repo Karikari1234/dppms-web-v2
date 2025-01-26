@@ -30,33 +30,48 @@ import { format, isBefore, parseISO, startOfMonth, subMonths, differenceInMonths
 import { Locale } from "@/i18n";
 const sourceCodePro = Source_Code_Pro({ subsets: ["latin"] });
 
-const formSchema = z.object({
-  rechargeAmount: z.number().min(200, {
-    message: "Minimum 200 {t.common.currency} needs to be recharged",
-  }),
-  sanctionLoad: z.number().min(2, {
-    message: "Sanction load can't be less than 2kWh.",
-  }),
-  firstTime: z.enum(["yes", "no"], {
-    required_error: "You need to select one option.",
-  }),
-  ownedBy: z.enum(["bpdb", "customer"], {
-    required_error: "You need to select one option.",
-  }),
-  // previousVendingMonths: z
-  //   .number().min(0, {
-  //     message: "Previous vending months can't be less than 0.",
-  //   }),
-    previousVendingDate: z
-    .date()
-    .refine((date) => {
-      //const selectedDate = parseISO(date);
-      const currentMonthStart = startOfMonth(new Date());
-      return isBefore(date, currentMonthStart);
-    }, {
-      message: "The date must be from a previous month.",
+const formSchema = z
+  .object({
+    rechargeAmount: z.number().min(200, {
+      message: "Minimum 200 {t.common.currency} needs to be recharged",
     }),
-});
+    sanctionLoad: z.number().min(2, {
+      message: "Sanction load can't be less than 2kWh.",
+    }),
+    firstTime: z.enum(["yes", "no"], {
+      required_error: "You need to select one option.",
+    }),
+    ownedBy: z.enum(["bpdb", "customer"], {
+      required_error: "You need to select one option.",
+    }),
+    previousVendingDate: z
+      .date()
+      .optional()
+      .refine(
+        (date) => {
+          if (!date) return true; // Allow undefined if optional
+          const currentMonthStart = startOfMonth(new Date());
+          return isBefore(date, currentMonthStart);
+        },
+        {
+          message: "The date must be from a previous month.",
+        }
+      ),
+  })
+  .refine(
+    (data) => {
+      // Make previousVendingDate required only when firstTime is "yes"
+      if (data.firstTime === "yes" && !data.previousVendingDate) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Previous vending date is required for first-time recharge.",
+      path: ["previousVendingDate"], // Highlight this field
+    }
+  );
+
 
 interface MeterCharges {
   rechargeAmount: number;
@@ -170,7 +185,8 @@ function calculateMonthDifferenceFromSysdate(inputDate: Date): number {
 
   // Validate the input date
   if (isNaN(inputDate.getTime())) {
-    throw new Error("Invalid date format. Please provide a valid date.");
+    return 0;
+    //throw new Error("Invalid date format. Please provide a valid date.");
   }
 
   // Extract year and month from both dates
@@ -199,8 +215,10 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
   });
   //const toast = useToast();
 
+  const defaultPreviousDate = subMonths(new Date(), 1);
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const previousVendingMonths: number = calculateMonthDifferenceFromSysdate(values.previousVendingDate) - 1;
+    const previousVendingMonths: number = calculateMonthDifferenceFromSysdate(values.previousVendingDate || defaultPreviousDate) - 1;
     //console.log(previousVendingMonths);
     const vat: number = (values.rechargeAmount * 5) / 105;
     const demandCharge: number =
