@@ -39,8 +39,8 @@ export const faqAccordionData: Array<FAQAccordionData> = [
       bn: "প্রিপেইড মিটার রিচার্জে ভ্যাট এবং ডিমান্ড চার্জ কী?",
     },
     answer: {
-      en: "The VAT is 5% on the energy recharged and demand charge is 42 taka on per kWh sanction load for residential consumers only. It is to be noted that, the demand charge is deducted once a month.",
-      bn: "রিচার্জ করা এনার্জির উপর ভ্যাট ৫% এবং আবাসিক গ্রাহকদের জন্য প্রতি কিলোওয়াট অনুমোদিত লোডের উপর ডিমান্ড চার্জ ৪২ টাকা। উল্লেখ্য, ডিমান্ড চার্জ মাসে একবার কেটে নেওয়া হয়।",
+      en: "The VAT is 5% on the total recharged amount, and the demand charge is 42 taka per kWh of sanctioned load for residential consumers only. It is to be noted that the demand charge is deducted once a month.",
+      bn: "মোট রিচার্জকৃত পরিমাণের উপর ভ্যাট ৫% এবং আবাসিক গ্রাহকদের জন্য প্রতি কিলোওয়াট অনুমোদিত লোডের উপর ডিমান্ড চার্জ ৪২ টাকা। উল্লেখ্য, ডিমান্ড চার্জ মাসে একবার কেটে নেওয়া হয়।",
     },
   },
   {
