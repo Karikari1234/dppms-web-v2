@@ -150,19 +150,19 @@ const TokenInfoTable = async (props: Props) => {
                       key={`${tariff.chargeDes._text} ${tariff.chargeAmount._text}`}
                     >
                       {tariff.chargeAmount._text}
-                      {tariff.itemName._text === "Meter Rent 1P"
+                      {/* {tariff.itemName._text === "Meter Rent 1P"
                         ? ` (${calculateMeterRentMonths(
                             token.date._text,
                             parseFloat(tariff.chargeAmount._text),
                           )})`
-                        : ""}
-                      {tariff.itemName._text === "Demand Charge"
+                        : ""} */}
+                      {/* {tariff.itemName._text === "Demand Charge"
                         ? ` (${calculateDemandChargesMonths(
                             token.date._text,
                             parseFloat(tariff.chargeAmount._text),
                             parseFloat(customerSnLoad),
                           )})`
-                        : ""}
+                        : ""} */}
                     </TableCell>
                   ))}
                   <TableCell className="border-slate-300 border">
