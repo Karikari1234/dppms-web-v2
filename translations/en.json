@@ -130,5 +130,27 @@
   "sequence": "Sequence",
   "grossAmount": "Gross Recharge Amount",
   "energyCost": "Energy Cost"
+  },
+  "onlineMeters": {
+    "title": "Online Prepaid Meters Dashboard",
+    "subtitle": "Real-time monitoring and statistics of online prepaid meters across different regions",
+    "statsOverview": "Online Meters Overview",
+    "totalMeters": "Total Online Meters",
+    "latestMonthCount": "Latest Month Count",
+    "monthlyGrowth": "Monthly Growth",
+    "growthPercentage": "Growth Percentage",
+    "timeSeriesChart": "Monthly Online Meters Growth",
+    "geographicalChart": "Geographical Distribution of Online Meters",
+    "benefitsTitle": "Benefits of Online Meters",
+    "benefits": [
+      "Real-time monitoring of electricity consumption",
+      "Instant recharge and activation",
+      "Remote diagnostics and troubleshooting",
+      "Accurate billing and consumption tracking",
+      "Reduced operational costs for utility providers"
+    ],
+    "region": "Region",
+    "count": "Number of Meters",
+    "percentage": "Percentage"
   }
 }

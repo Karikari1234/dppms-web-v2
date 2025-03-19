@@ -45,6 +45,10 @@ export const topMenu: Array<MenuItem> = [
     route: `/token-check` 
   },
   { 
+    title: { en: "Online Meters", bn: "অনলাইন মিটার" }, 
+    route: `/online-meters` 
+  },
+  { 
     title: { en: "FAQ", bn: "সচরাচর জিজ্ঞাসা" }, 
     route: `/faq` 
   },
