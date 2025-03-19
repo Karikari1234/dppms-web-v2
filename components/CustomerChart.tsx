@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { getTranslation } from "@/lib/i18n/getTranslation";
 import { Locale } from "@/i18n";
+import { ensureString } from "@/lib/i18n/utils/ensureString";
 
 const CustomerChart = async ({ locale }: { locale: Locale }) => {
   const translation = await getTranslation(locale);
@@ -38,7 +39,7 @@ const CustomerChart = async ({ locale }: { locale: Locale }) => {
           dataKey="newCustomerNo"
           stroke="#00513D"
           activeDot={{ r: 8 }}
-          name={translation("customerCharts.title")}
+          name={ensureString(translation("customerCharts.title"))}
         />
       </LineChart>
     </ResponsiveContainer>

@@ -3,11 +3,11 @@ import { ObjectKeys } from "@/lib/utils/objectKeys";
 import { loadTranslation, TranslationObject } from "./loadTranslation";
 
 // Defines a function type that takes a key of type ObjectKeys from TranslationObject and retruns a string.
-export type TranslationKey = (key: ObjectKeys<TranslationObject>) => string;
+export type TranslationKey = (key: ObjectKeys<TranslationObject>) => string | string[];
 
-// Defines a object type with array of string keys that can be of type string or a iteration type of itself.
+// Defines a object type with array of string keys that can be of type string, array of strings, or a iteration type of itself.
 type TranslationKeyValue = {
-  [key: string]: string | TranslationKeyValue;
+  [key: string]: string | string[] | TranslationKeyValue;
 };
 
 /**
@@ -19,10 +19,10 @@ type TranslationKeyValue = {
  */
 const getTranslationValue = (
   keys: string[],
-  translation: TranslationKeyValue | string,
-): string => {
-  // Return current translation if its a string.
-  if (typeof translation === "string") {
+  translation: TranslationKeyValue | string | string[],
+): string | string[] => {
+  // Return current translation if its a string or array.
+  if (typeof translation === "string" || Array.isArray(translation)) {
     return translation;
   }
 
@@ -43,14 +43,14 @@ const getTranslationValue = (
 const getTranslationValueByKey = (
   key: string,
   translation: TranslationKeyValue,
-): string => {
+): string | string[] => {
   // Split the key string into an array of keys using '.' as the divider.
   const keys: string[] = key.split(".");
 
   // Call getTranslationValue with the array of keys and the translation object to get translation value.
   const translationValue = getTranslationValue(keys, translation);
 
-  if (!translationValue || typeof translationValue !== "string") {
+  if (!translationValue) {
     return key;
   }
 

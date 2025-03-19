@@ -126,7 +126,24 @@ const TimeSeriesChart = ({ data, locale }: TimeSeriesChartProps) => {
               dataKey="name" 
               tickFormatter={(value) => formatXAxisTick(value, locale)}
               height={60}
-              tick={{ angle: -45, textAnchor: 'end', fontSize: 12 }}
+              tick={(props) => {
+                const { x, y, payload } = props;
+                return (
+                  <g transform={`translate(${x},${y})`}>
+                    <text 
+                      x={0} 
+                      y={0} 
+                      dy={16} 
+                      textAnchor="end" 
+                      fill="#666"
+                      fontSize={12}
+                      transform="rotate(-45)"
+                    >
+                      {formatXAxisTick(payload.value, locale)}
+                    </text>
+                  </g>
+                );
+              }}
             />
             <YAxis 
               domain={[0, 500000]}
