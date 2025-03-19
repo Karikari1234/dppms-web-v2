@@ -44,6 +44,10 @@ const GeographicalDistribution = ({ data, locale, total }: GeographicalDistribut
       en: 'Geographical Distribution of Online Meters',
       bn: 'অনলাইন মিটারের ভৌগলিক বণ্টন'
     },
+    note: {
+      en: 'N.B: Data is up to March 2025',
+      bn: 'দ্রষ্টব্য: তথ্য মার্চ ২০২৫ পর্যন্ত'
+    },
     region: {
       en: 'Region',
       bn: 'অঞ্চল'
@@ -80,9 +84,12 @@ const GeographicalDistribution = ({ data, locale, total }: GeographicalDistribut
 
   return (
     <div className="w-full bg-white p-4 rounded-lg shadow-md">
-      <h2 className="text-xl font-bold mb-4 text-center">
+      <h2 className="text-xl font-bold mb-2 text-center">
         {locale === 'en' ? translations.title.en : translations.title.bn}
       </h2>
+      <p className="text-sm text-gray-600 italic text-center mb-4">
+        {locale === 'en' ? translations.note.en : translations.note.bn}
+      </p>
       <div className="w-full h-80">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
