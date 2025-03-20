@@ -1,0 +1,109 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "1",
+        "name": "Barishal",
+        "bn_name": "বরিশাল",
+        "meters": 20000
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [90.353451, 22.701002]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "2",
+        "name": "Chattogram",
+        "bn_name": "চট্টগ্রাম",
+        "meters": 216074
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [91.783182, 22.356851]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "3",
+        "name": "Dhaka",
+        "bn_name": "ঢাকা",
+        "meters": 150000
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [90.412518, 23.810332]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "4",
+        "name": "Khulna",
+        "bn_name": "খুলনা",
+        "meters": 30000
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [89.540328, 22.845641]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "5",
+        "name": "Rajshahi",
+        "bn_name": "রাজশাহী",
+        "meters": 25000
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [88.624135, 24.363589]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "6",
+        "name": "Rangpur",
+        "bn_name": "রংপুর",
+        "meters": 15000
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [89.275227, 25.743892]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "7",
+        "name": "Sylhet",
+        "bn_name": "সিলেট",
+        "meters": 45892
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [91.868706, 24.894929]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "8",
+        "name": "Mymensingh",
+        "bn_name": "ময়মনসিংহ",
+        "meters": 18000
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [90.420273, 24.747149]
+      }
+    }
+  ]
+}

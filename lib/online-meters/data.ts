@@ -25,14 +25,14 @@ export const timeSeriesData: TimeSeriesEntry[] = [
   { month_name: "DECEMBER", month_num: 12, year: 2024, meter_count: 403483 },
   { month_name: "JANUARY", month_num: 1, year: 2025, meter_count: 374749 },
   { month_name: "FEBRUARY", month_num: 2, year: 2025, meter_count: 430898 },
-  { month_name: "MARCH", month_num: 3, year: 2025, meter_count: 437738 },
+  { month_name: "MARCH", month_num: 3, year: 2025, meter_count: 437738 }
 ];
 
 // Geographical data - Distribution of meters by region
 export const geographicalData: RegionData[] = [
   { region: "Chittagong", count: 216074 },
   { region: "Comilla", count: 182001 },
-  { region: "Sylhet", count: 45892 },
+  { region: "Sylhet", count: 45892 }
 ];
 
 // Total meters - This could come from an API in a real application
