@@ -8,65 +8,9 @@ import { topMenu } from "@/lib/nav-menu";
 
 const Header = async ({ locale }: { locale: Locale }) => {
   const translation = await getTranslation(locale);
-  
-  // const mlocale = useLocale();
-  // const t = useTranslations("Header");
-  // const router = useRouter();
-  // const pathname = usePathname();
-  // const changeLocale = () => {
-  //   mlocale == "en"
-  //     ? router.push(pathname, { locale: "bn" })
-  //     : router.push(pathname, { locale: "en" });
-  // };
-
-  // const topMenu: Array<MenuItem> = [
-  //   { title: "Home", route: `/${locale}/` },
-  //   { title: "About", route: `/${locale}/about` },
-  //   {
-  //     title: "BPDB Care Point",
-  //     route: "https://carepoint.bpdbprepaid.gov.bd",
-  //   },
-  //   { title: "Calculate Meter Charges", route: `/${locale}/bill-calculator` },
-  //   { title: "Check Meter Token", route: `/${locale}/token-check` },
-  //   { title: "FAQ", route: `/${locale}/faq` },
-  // ];
-  // interface MenuItem {
-  //   title: {
-  //     en: string;
-  //     bn: string;
-  //   };
-  //   route: string;
-  // }
-
-  // const topMenu: Array<MenuItem> = [
-  //   { 
-  //     title: { en: "Home", bn: "হোম" }, 
-  //     route: `/${locale}/` 
-  //   },
-  //   { 
-  //     title: { en: "About", bn: "সম্পর্কে" }, 
-  //     route: `/${locale}/about` 
-  //   },
-  //   {
-  //     title: { en: "BPDB Care Point", bn: "বিপিডিবি কেয়ার পয়েন্ট" },
-  //     route: "https://carepoint.bpdbprepaid.gov.bd",
-  //   },
-  //   { 
-  //     title: { en: "Calculate Meter Charges", bn: "মিটার চার্জ হিসাব করুন" }, 
-  //     route: `/${locale}/bill-calculator` 
-  //   },
-  //   { 
-  //     title: { en: "Check Meter Token", bn: "মিটার টোকেন দেখুন" }, 
-  //     route: `/${locale}/token-check` 
-  //   },
-  //   { 
-  //     title: { en: "FAQ", bn: "সচরাচর জিজ্ঞাসা" }, 
-  //     route: `/${locale}/faq` 
-  //   },
-  // ];
 
   return (
-    <header className="hidden md:mx-auto md:mb-2 md:block md:w-5/6 md:pb-6">
+    <header className="hidden md:mx-auto md:block md:w-5/6">
       <div className="md:flex md:flex-row md:justify-between md:py-4">
         <div className="md:flex md:items-center">
           <Link
@@ -119,15 +63,6 @@ const Header = async ({ locale }: { locale: Locale }) => {
               </div>
             </a>
           </div>
-          {/* <div>
-            <button
-              onClick={changeLocale}
-              className="rounded border border-green bg-transparent px-4 py-2 text-green hover:border-transparent hover:bg-green hover:text-white"
-            >
-              {t("lang")}
-            </button>
-          </div> */}
-
           <LocaleSelector locale={locale}/>
         </div>
       </div>

@@ -25,7 +25,6 @@ const NavList = ({ locale, openNav, onOpenNavChange }: Props) => {
   return (
     <ul className="my-2 flex flex-col gap-2 text-sm lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       {topMenu.map((item) => (
-        //console.log("Menu item:", item.title[locale]),
         <li
           key={`${locale}-${item.route}`}
           className="text-center text-black"
@@ -53,7 +52,7 @@ export const MobileNavbar = ({ locale }: { locale: Locale }) => {
   }, []);
 
   return (
-    <Navbar className="mx-auto mb-4 max-w-full rounded px-6 py-3">
+    <Navbar className="mx-auto max-w-full rounded px-6 py-3">
       <div className="flex items-center justify-between text-blue-gray-900">
         <div className="flex items-center">
           <Link className="mr-3 block h-12 w-12 md:h-8 md:w-16" href="/">
