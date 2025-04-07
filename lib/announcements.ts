@@ -18,7 +18,7 @@ export const announcements: Announcement[] = [
       en: "Using prepaid meters will help control electricity costs",
     },
     date: "2025-03-24",
-    documentUrl: "/documents/prepaid-meter-guidelines.pdf",
+    documentUrl: "/documents/prepaid-meter-awareness-06-04-25.pdf",
     isNew: true,
   },
   {
