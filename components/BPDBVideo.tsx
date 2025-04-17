@@ -6,7 +6,7 @@ const VideoEmbed = async ({ locale }: { locale: Locale }) => {
 
   const videos = [
     {
-      id: "1V3fOSFWBLwi_49q3UppmMJs35zTuC8yd",
+      id: "1s-dRekh3P7yfMHXnt3pUf9wnjlhhhwdL",
       label: {
         en: "BPDB Prepaid Metering System Overview",
         bn: "বিপিডিবি প্রিপেইড মিটারিং সিস্টেমের সারসংক্ষেপ",
@@ -14,12 +14,28 @@ const VideoEmbed = async ({ locale }: { locale: Locale }) => {
       logo: "/site-logo.png",
     },
     {
-      id: "1Z_9MXIagKmA84ByAyNH-JiSb1RCfTQpT",
+      id: "1M_KBVemreVg4hvuSWIlIeEfwzxD-_jDs",
       label: {
         en: "BPDB Prepaid Meter Vending using Bkash Mobile App",
         bn: "বিপিডিবি প্রিপেইড মিটার ভেন্ডিং বিকাশ মোবাইল অ্যাপ ব্যবহার করে",
       },
       logo: "/bkash-logo.png",
+    },
+    {
+      id: "1XljCiSIEnCMdrH6B0Ezur0k49WyYCjD3",
+      label: {
+        en: "BPDB Prepaid Meter Vending using TAP Mobile App",
+        bn: "বিপিডিবি প্রিপেইড মিটার ভেন্ডিং ট্যাপ মোবাইল অ্যাপ ব্যবহার করে",
+      },
+      logo: "/tap-logo.png",
+    },
+    {
+      id: "13oPCxsUzU85W7IFJuR6VBQpD5y9bqr6a",
+      label: {
+        en: "BPDB Prepaid Meter Vending using Upay Mobile App",
+        bn: "বিপিডিবি প্রিপেইড মিটার ভেন্ডিং উপায় মোবাইল অ্যাপ ব্যবহার করে",
+      },
+      logo: "/upay-logo.webp",
     },
   ];
 
