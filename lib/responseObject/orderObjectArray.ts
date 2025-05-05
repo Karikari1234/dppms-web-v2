@@ -30,6 +30,7 @@ export interface Orders {
 
 export interface Order {
   date: Date;
+  monthDifference: MonthDifference;
   orderNo: OrderNo;
   meterNo: MeterNo;
   customerNo: CustomerNo;
@@ -101,5 +102,9 @@ export interface ChargeAmount {
 }
 
 export interface Tokens {
+  _text: string;
+}
+
+export interface MonthDifference {
   _text: string;
 }

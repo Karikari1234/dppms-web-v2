@@ -1,8 +1,5 @@
 "use client";
-import {
-  Order,
-  TariffFee,
-} from "@/lib/responseObject/orderObjectArray";
+import { Order, TariffFee } from "@/lib/responseObject/orderObjectArray";
 import {
   Table,
   TableBody,
@@ -23,12 +20,12 @@ interface Props {
 }
 
 // Helper function to calculate relevant months for meter rent
-const calculateMeterRentMonths = (date: string, chargeAmount: number) => {
-  const meterRentPerMonth = parseInt(
-    process.env.NEXT_PUBLIC_METER_RENT || "40",
-  );
+const calculateTotalChargeMonths = (date: string, monthDifference: number) => {
+  // const meterRentPerMonth = parseInt(
+  //   process.env.NEXT_PUBLIC_METER_RENT || "40",
+  // );
   const orderDate = parseISO(date);
-  const months = Math.floor(chargeAmount / meterRentPerMonth);
+  const months = monthDifference;
 
   // Generate the list of relevant months
   const monthsList: string[] = [];
@@ -37,35 +34,17 @@ const calculateMeterRentMonths = (date: string, chargeAmount: number) => {
     monthsList.push(format(relevantDate, "MMM''yy"));
   }
 
-  return monthsList.length === 0 ? "No Charges" : monthsList.reverse().join(", ");
-};
-
-// Helper function to calculate relevant months for demand charges
-const calculateDemandChargesMonths = (
-  date: string,
-  chargeAmount: number,
-  snLoad: number,
-) => {
-  const demandChargesPerUnit = parseInt(
-    process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42",
-  );
-  const demandChargesPerMonth = demandChargesPerUnit * snLoad;
-  const orderDate = parseISO(date);
-  const months = Math.floor(chargeAmount / demandChargesPerMonth);
-
-  // Generate the list of relevant months
-  const monthsList: string[] = [];
-  for (let i = 0; i < months; i++) {
-    const relevantDate = subMonths(orderDate, i);
-    monthsList.push(format(relevantDate, "MMM''yy"));
-  }
-
-  return monthsList.length === 0 ? "No Charges" : monthsList.reverse().join(", ");
+  return monthsList.length === 0
+    ? "No Charges"
+    : monthsList.reverse().join(", ");
 };
 
 // Format tokens for rendering
 function formatToken(dataString: string) {
-  return dataString.split(",").map((item) => `<div>${item}</div>`).join("");
+  return dataString
+    .split(",")
+    .map((item) => `<div>${item}</div>`)
+    .join("");
 }
 
 // Sorting helper
@@ -85,24 +64,22 @@ const TokenInfoTable = async (props: Props) => {
       <>
         <div className="md:max-w-5/6 md:mx-auto">
           <Table className="border-slate-400 border-collapse border">
-            <TableCaption>
-              {translation("tokenInfo.tableCaption")}
-            </TableCaption>
+            <TableCaption>{translation("tokenInfo.tableCaption")}</TableCaption>
             <TableHeader className="">
               <TableRow className="bg-gray-100">
-                <TableHead className="border-slate-300 border font-bold items-center justify-center">
+                <TableHead className="border-slate-300 items-center justify-center border font-bold">
                   {/* {translation("tokenInfo.date")} */}
                   Date
                 </TableHead>
-                <TableHead className="border-slate-300 border font-bold items-center justify-center">
+                <TableHead className="border-slate-300 items-center justify-center border font-bold">
                   {/* {translation("tokenInfo.tokenNumber")} */}
                   Token No.
                 </TableHead>
-                <TableHead className="border-slate-300 border font-bold items-center justify-center">
+                <TableHead className="border-slate-300 items-center justify-center border font-bold">
                   {/* {translation("tokenInfo.sequence")} */}
                   Sequence
                 </TableHead>
-                <TableHead className="border-slate-300 border font-bold items-center justify-center">
+                <TableHead className="border-slate-300 items-center justify-center border font-bold">
                   {/* {translation("tokenInfo.grossAmount")} */}
                   Gross Recharge Amount
                 </TableHead>
@@ -110,7 +87,7 @@ const TokenInfoTable = async (props: Props) => {
                   tokenInfo[0].tariffFees.tariffFee?.map(
                     (tariff: TariffFee) => (
                       <TableHead
-                        className="border-slate-300 border font-bold items-center justify-center"
+                        className="border-slate-300 items-center justify-center border font-bold"
                         key={tariff.itemName._text}
                       >
                         {tariff.itemName._text}
@@ -120,7 +97,7 @@ const TokenInfoTable = async (props: Props) => {
                 ) : (
                   <></>
                 )}
-                <TableHead className="border-slate-300 border font-bold items-center justify-center">
+                <TableHead className="border-slate-300 items-center justify-center border font-bold">
                   {/* {translation("tokenInfo.energyCost")} */}
                   Energy Cost
                 </TableHead>
@@ -150,19 +127,20 @@ const TokenInfoTable = async (props: Props) => {
                       key={`${tariff.chargeDes._text} ${tariff.chargeAmount._text}`}
                     >
                       {tariff.chargeAmount._text}
-                      {/* {tariff.itemName._text === "Meter Rent 1P"
-                        ? ` (${calculateMeterRentMonths(
+                      {tariff.itemName._text === "Meter Rent 1P"
+                        ? parseFloat(tariff.chargeAmount._text) > 0
+                          ? ` (${calculateTotalChargeMonths(
+                              token.date._text,
+                              parseFloat(token.monthDifference._text),
+                            )})`
+                          : " (No Charges)"
+                        : ""}
+                      {tariff.itemName._text === "Demand Charge"
+                        ? ` (${calculateTotalChargeMonths(
                             token.date._text,
-                            parseFloat(tariff.chargeAmount._text),
+                            parseFloat(token.monthDifference._text),
                           )})`
-                        : ""} */}
-                      {/* {tariff.itemName._text === "Demand Charge"
-                        ? ` (${calculateDemandChargesMonths(
-                            token.date._text,
-                            parseFloat(tariff.chargeAmount._text),
-                            parseFloat(customerSnLoad),
-                          )})`
-                        : ""} */}
+                        : ""}
                     </TableCell>
                   ))}
                   <TableCell className="border-slate-300 border">
