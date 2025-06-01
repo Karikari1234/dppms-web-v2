@@ -231,7 +231,7 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
       //previousVendingMonths > 0 && values.ownedBy == "bpdb" ? previousVendingMonths * (parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") * values.sanctionLoad + parseFloat( process.env.NEXT_PUBLIC_METER_RENT || "40")) : previousVendingMonths > 0 && values.ownedBy != "bpdb" ? previousVendingMonths * (parseFloat(process.env.NEXT_PUBLIC_DEMAND_CHARGE || "42") * values.sanctionLoad) : 0.0;
     const totalCharge: number = vat + demandCharge + meterRent + previousMonthsCharges;
     const rebate: number =
-      (.5 / 100.5) * (values.rechargeAmount - vat - meterRent);
+      (.5 / 100.5) * (values.rechargeAmount - vat - (meterRent + previousVendingMonthsMeterCharge));
     const totalEnergy: number = values.rechargeAmount - totalCharge + rebate;
     const previousVendingMonthsCount: number = previousVendingMonths;
     let result: MeterCharges = {
