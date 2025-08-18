@@ -116,7 +116,7 @@ const TokenInfoTable = async (props: Props) => {
                     }}
                   ></TableCell>
                   <TableCell className="border-slate-300 border">
-                    {token.sequence._text}
+                    {token.sequence._text || "N/A"}
                   </TableCell>
                   <TableCell className="border-slate-300 border">
                     {token.grossAmount._text}

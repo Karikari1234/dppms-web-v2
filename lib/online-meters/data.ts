@@ -25,7 +25,10 @@ export const timeSeriesData: TimeSeriesEntry[] = [
   { month_name: "DECEMBER", month_num: 12, year: 2024, meter_count: 403483 },
   { month_name: "JANUARY", month_num: 1, year: 2025, meter_count: 374749 },
   { month_name: "FEBRUARY", month_num: 2, year: 2025, meter_count: 430898 },
-  { month_name: "MARCH", month_num: 3, year: 2025, meter_count: 437738 }
+  { month_name: "MARCH", month_num: 3, year: 2025, meter_count: 437738 },
+  { month_name: "APRIL", month_num: 4, year: 2025, meter_count: 449440 },
+  { month_name: "MAY", month_num: 5, year: 2025, meter_count: 461069 },
+  { month_name: "JUNE", month_num: 6, year: 2025, meter_count: 462200 }
 ];
 
 // Geographical data - Distribution of meters by region
@@ -36,4 +39,4 @@ export const geographicalData: RegionData[] = [
 ];
 
 // Total meters - This could come from an API in a real application
-export const totalMeters = 443967;
+export const totalMeters = 462567;
