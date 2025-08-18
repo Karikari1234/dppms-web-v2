@@ -203,6 +203,8 @@ const fetchKfwCustomerData = async (meterNo: string) => {
     throw new Error(`KFW returned non-XML or empty body for ${trimmedMeterNo}: ${body.slice(0, 200)}`);
   }
 
+  console.log(cleaned);
+
   const json = xmlToJsonSafe(cleaned);
   if (!json) {
     throw new Error("Unable to parse KFW XML (see server logs for preview).");
