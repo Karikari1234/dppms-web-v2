@@ -77,6 +77,26 @@ const VendingOptionComponent = ({ locale }: { locale: Locale }) => {
       href: "https://m-money.robi.com.bd/robicash_web/index.html",
     },
     {
+      key: "pay-station",
+      logo: "/paystation.png",
+      href: "https://www.paystation.com.bd/",
+    },
+    {
+      key: "rocket",
+      logo: "/rocket.jpg",
+      href: "https://www.dutchbanglabank.com/rocket/rocket.html",
+    },
+    {
+      key: "telecash",
+      logo: "/telecash.png",
+      href: "https://telecash.com.bd/",
+    },
+    {
+      key: "shebapay",
+      logo: "/shebapay.jpeg",
+      href: "https://shebapay.xyz/",
+    },
+    {
       key: "gp",
       logo: "/r-gp-logo.png",
       href: "https://www.grameenphone.com/bpdb",
