@@ -66,7 +66,8 @@
         "why_prepaid": "Why Prepaid",
         "faq": "FAQ",
         "facebook_group": "Facebook Group",
-        "built_by": "Built by BPDB. © Copyright 2023."
+        "built_by": "Built by BPDB. © Copyright 2023.",
+        "tariff_schedule": "Tariff Rate"
     },
         "customerStats": {
         "title": "Prepaid Metering BPDB at a glance",

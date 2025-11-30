@@ -78,6 +78,15 @@ const Footer = async ({ locale }: { locale: Locale }) => {
                   <a
                     target="_blank"
                     className="text-sm font-light"
+                    href="https://bpdb.portal.gov.bd/sites/default/files/files/bpdb.portal.gov.bd/page/4a0f045a_1415_45f1_9e7c_02a8ed4f103c/2024-03-01-13-45-740f1fb3c50588f18077bdce93250b9a.pdf"
+                  >
+                    {translation("footer.tariff_schedule")}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    target="_blank"
+                    className="text-sm font-light"
                     href="https://bpdb.portal.gov.bd/sites/default/files/files/bpdb.portal.gov.bd/page/8d4c02c3_c22c_479d_a287_f3f895d22929/2021-09-20-14-11-2d19fa954612b51b3d33dd4b0517f30f.pdf"
                   >
                     {translation("footer.system_operations_manual")}
