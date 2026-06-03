@@ -12,6 +12,16 @@ export interface Announcement {
 
 export const announcements: Announcement[] = [
   {
+    id: "tariff-effective-june-2026",
+    title: {
+      bn: "নতুন ট্যারিফ রেট জুন ২০২৬ থেকে কার্যকর হয়েছে",
+      en: "New tariff rate is effective from June 2026",
+    },
+    date: "2026-06-02",
+    documentUrl: "/en/bill-calculator",
+    isNew: true,
+  },
+  {
     id: "announcement-1",
     title: {
       bn: "প্রিপেইড মিটার ব্যবহারে, বিদ্যুৎ খরচ আসবে নিয়ন্ত্রণে",

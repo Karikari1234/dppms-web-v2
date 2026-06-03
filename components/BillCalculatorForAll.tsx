@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -27,7 +27,9 @@ import {
 import { Locale } from "@/i18n";
 
 /* ---------------------------------- TARIFF ---------------------------------- */
-const TARIFFS: Record<string, { name: string; demandPerKW: number }> = {
+type TariffConfig = Record<string, { name: string; demandPerKW: number }>;
+
+const EXISTING_TARIFFS: TariffConfig = {
   "LT-A": { name: "Residential", demandPerKW: 42 },
   "LT-B": { name: "Agriculture & Irrigation", demandPerKW: 42 },
   "LT-C1": { name: "SME", demandPerKW: 48 },
@@ -56,6 +58,42 @@ const TARIFFS: Record<string, { name: string; demandPerKW: number }> = {
   "EHT-2": { name: "General", demandPerKW: 90 },
 };
 
+const TARIFF_RATE_OPTIONS = {
+  revised: {
+    label: {
+      en: "Tariff Rate Effective From June 2026",
+      bn: "জুন ২০২৬ থেকে কার্যকর বিদ্যুৎ ট্যারিফ হার",
+    },
+    description: {
+      en: "Calculation Structure and Rate Values are defined as per the June 2026 tariff order",
+      bn: "হিসাব কাঠামো ও রেট ভ্যালুসমূহ জুন ২০২৬-এর ট্যারিফ আদেশ অনুযায়ী নির্ধারণ করা হয়েছে",
+    },
+    tariffs: {
+      ...EXISTING_TARIFFS,
+      // Update values here when a revised tariff order changes demand rates.
+    },
+  },
+  existing: {
+    label: {
+      en: "Tariff Rate Effective From February 2024",
+      bn: "ফেব্রুয়ারি ২০২৪ থেকে কার্যকর বিদ্যুৎ ট্যারিফ হার",
+    },
+    description: {
+      en: "Calculation Structure and Rate Values are defined as per the February 2024 tariff order",
+      bn: "হিসাব কাঠামো ও রেট ভ্যালুসমূহ ফেব্রুয়ারি ২০২৪-এর ট্যারিফ আদেশ অনুযায়ী নির্ধারণ করা হয়েছে",
+    },
+    tariffs: EXISTING_TARIFFS,
+  },
+} satisfies Record<
+  string,
+  {
+    label: Record<Locale, string>;
+    description: Record<Locale, string>;
+    tariffs: TariffConfig;
+  }
+>;
+type TariffRateOptionKey = keyof typeof TARIFF_RATE_OPTIONS;
+
 /* ---------------------------------- TRANSLATION ---------------------------------- */
 const translation = {
   bn: {
@@ -71,6 +109,9 @@ const translation = {
     },
     energyCalculator: {
       title: "প্রিপেইড মিটার এনার্জি ক্যালকুলেটর",
+      tariffRateTitle: "ট্যারিফ রেট নির্বাচন করুন",
+      tariffRateDescription: "হিসাব করার আগে কোন ট্যারিফ রেট ব্যবহার হবে তা নির্বাচন করুন।",
+      tariffRateChange: "ট্যারিফ রেট পরিবর্তন",
       rechargeAmountLabel: "মোট রিচার্জ পরিমাণ (টাকা)",
       rechargeAmountDescription: "রিচার্জের জন্য প্রদত্ত পরিমাণ।",
       sanctionLoadLabel: "মিটার অনুমোদিত লোড (kWh)",
@@ -83,7 +124,8 @@ const translation = {
       previousVendingDescription: "আপনার পূর্ববর্তী ভেন্ডিং এর তারিখ দিন।",
       tariffLabel: "ট্যারিফ",
       tariffDescription: "আপনার সংযোগের ট্যারিফ নির্বাচন করুন।",
-      meterSelectPlaceholder: "গ্রাহক বা বিউবো নির্বাচন করুন",
+      meterSelectPlaceholder: "মিটার মালিক নির্বাচন করুন",
+      tariffSelectPlaceholder: "ট্যারিফ নির্বাচন করুন",
       resultTitle: "আপনার মিটার চার্জ",
       demandCharge: "ডিমান্ড চার্জ",
       meterRent: "মিটার ভাড়া",
@@ -109,6 +151,9 @@ const translation = {
     },
     energyCalculator: {
       title: "Prepaid Meter Energy Calculator",
+      tariffRateTitle: "Select tariff rate",
+      tariffRateDescription: "Choose which tariff rate should be used before calculating.",
+      tariffRateChange: "Change tariff rate",
       rechargeAmountLabel: "Recharge Amount (BDT)",
       rechargeAmountDescription: "Enter recharge amount.",
       sanctionLoadLabel: "Sanction Load (kWh)",
@@ -121,7 +166,8 @@ const translation = {
       previousVendingDescription: "Enter your previous vending date.",
       tariffLabel: "Tariff Class",
       tariffDescription: "Select your tariff.",
-      meterSelectPlaceholder: "Select customer or BPDB",
+      meterSelectPlaceholder: "Select meter owner",
+      tariffSelectPlaceholder: "Select tariff",
       resultTitle: "Your Meter Charges",
       demandCharge: "Demand Charge",
       meterRent: "Meter Rent",
@@ -155,8 +201,21 @@ function calcMonths(input: Date | null): number {
 /* ---------------------------------- MAIN COMPONENT ---------------------------------- */
 export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
   const t = translation[locale];
+  const [selectedTariffRate, setSelectedTariffRate] =
+    useState<TariffRateOptionKey | null>(null);
   const [firstTime, setFirstTime] = useState("no");
   const [key, setKey] = useState(0);
+  const selectedTariffs = useMemo(
+    () =>
+      selectedTariffRate
+        ? TARIFF_RATE_OPTIONS[selectedTariffRate].tariffs
+        : EXISTING_TARIFFS,
+    [selectedTariffRate]
+  );
+  const tariffCodes = useMemo(
+    () => Object.keys(selectedTariffs) as [string, ...string[]],
+    [selectedTariffs]
+  );
 
   /* ---------------- ZOD SCHEMA ---------------- */
   const formSchema = useMemo(
@@ -192,7 +251,7 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
 
           previousVendingDate: z.string().optional(),
 
-          tariffCode: z.enum(Object.keys(TARIFFS) as any, {
+          tariffCode: z.enum(tariffCodes, {
             required_error: t.energyCalculator.tariffDescription,
           }),
 
@@ -222,7 +281,7 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
             path: ["meterType"],
           }
         ),
-    [locale]
+    [locale, tariffCodes, t.energyCalculator.rechargeAmountLabel, t.energyCalculator.tariffDescription]
   );
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -256,7 +315,7 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
 
     const prevMonths = calcMonths(prevDate) - 1 > 0 ? calcMonths(prevDate) - 1 : 0;
 
-    const cfg = TARIFFS[values.tariffCode];
+    const cfg = selectedTariffs[values.tariffCode];
     const demandPerKW = cfg.demandPerKW;
 
     const isLT = values.tariffCode.startsWith("LT-");
@@ -390,6 +449,54 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function onTariffRateChange() {
+    form.reset();
+    setKey((k) => k + 1);
+    setResult(defaultMeterCharges);
+    setFirstTime("no");
+    setSelectedTariffRate(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  if (!selectedTariffRate) {
+    return (
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold">
+            {t.energyCalculator.tariffRateTitle}
+          </h1>
+          <p className="text-sm text-gray-600">
+            {t.energyCalculator.tariffRateDescription}
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          {(Object.keys(TARIFF_RATE_OPTIONS) as TariffRateOptionKey[]).map(
+            (optionKey) => {
+              const option = TARIFF_RATE_OPTIONS[optionKey];
+
+              return (
+                <button
+                  key={optionKey}
+                  type="button"
+                  onClick={() => setSelectedTariffRate(optionKey)}
+                  className="w-full rounded border border-gray-200 p-4 text-left shadow-sm transition hover:border-green hover:bg-green/5 focus:outline-none focus:ring-2 focus:ring-green"
+                >
+                  <span className="block text-lg font-semibold">
+                    {option.label[locale]}
+                  </span>
+                  <span className="mt-1 block text-sm text-gray-600">
+                    {option.description[locale]}
+                  </span>
+                </button>
+              );
+            }
+          )}
+        </div>
+      </div>
+    );
+  }
+
   /* ---------------- RENDER ---------------- */
   return (
     <Form {...form}>
@@ -399,6 +506,25 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
         className="space-y-8"
       >
         <h1 className="text-3xl font-bold">{t.energyCalculator.title}</h1>
+
+        <div className="flex items-start justify-between gap-3 rounded-sm bg-gray-100 p-3 text-sm">
+          <div>
+            <div className="font-semibold">
+              {TARIFF_RATE_OPTIONS[selectedTariffRate].label[locale]}
+            </div>
+            <div className="text-gray-600">
+              {TARIFF_RATE_OPTIONS[selectedTariffRate].description[locale]}
+            </div>
+          </div>
+
+          <Button
+            type="button"
+            className="shrink-0 bg-gray-200 text-black"
+            onClick={onTariffRateChange}
+          >
+            {t.energyCalculator.tariffRateChange}
+          </Button>
+        </div>
 
         {/* ---------------- SUMMARY RIBBON ---------------- */}
         <div
@@ -611,11 +737,13 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
                 <Select value={field.value} onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select tariff" />
+                      <SelectValue placeholder={
+                          t.energyCalculator.tariffSelectPlaceholder
+                        } />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="max-h-60 overflow-y-auto">
-                    {Object.entries(TARIFFS).map(([code, cfg]) => (
+                    {Object.entries(selectedTariffs).map(([code, cfg]) => (
                       <SelectItem key={code} value={code}>
                         {code} — {cfg.name}
                       </SelectItem>
@@ -688,3 +816,4 @@ export function EnergyCalculatorForm({ locale }: { locale: Locale }) {
 }
 
 export default EnergyCalculatorForm;
+

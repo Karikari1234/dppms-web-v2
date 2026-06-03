@@ -11,7 +11,11 @@ const VendingOptionComponent = dynamic(() => import("@/components/VendingOptionC
   </div>
 });
 import VideoEmbed from "@/components/BPDBVideo";
-import { AnnouncementTicker } from "@/components/notices";
+import {
+  AnnouncementTicker,
+  TariffChangeScroll,
+  TariffNoticePopup,
+} from "@/components/notices";
 import { Locale, i18nConfig } from "@/i18n";
 import { getTranslation } from "@/lib/i18n/getTranslation";
 
@@ -26,7 +30,9 @@ export default async function Home({ params }: Props) {
   const translation = await getTranslation(locale);
   return (
     <div className="flex flex-col space-y-8">
+      <TariffNoticePopup locale={locale} />
       <AnnouncementTicker locale={locale} />
+      <TariffChangeScroll locale={locale} />
       <HeroSection locale={locale} />
       <VendingOptionComponent locale={locale} />
       <AboutComponent locale={locale} />

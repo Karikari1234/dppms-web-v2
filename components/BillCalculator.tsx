@@ -139,7 +139,8 @@ const translation = {
       firstTimeDescription: "প্রথমবার রিচার্জ করলে মিটার ভাড়া এবং ডিমান্ড চার্জ কেটে নেওয়া হবে।",
       meterOwnerDescription: "মিটারটি বিউবো বা গ্রাহকের মালিকানাধীন। যদি গ্রাহক মিটারের মালিক হন, তবে মাসিক মিটার ভাড়া চার্জ করা হবে না।",
       previousVendingDescription: "আপনার পূর্ববর্তী ভেন্ডিং এর তারিখ প্রদান করুন।",
-      meterSelectPlaceholder: "গ্রাহক বা বিউবো নির্বাচন করুন",
+      meterSelectPlaceholder: "মিটার মালিক নির্বাচন করুন",
+      tariffSelectPlaceholder: "ট্যারিফ নির্বাচন করুন",
     },
   },
   en: {
@@ -175,7 +176,8 @@ const translation = {
       rebate: "Rebate",
       totalCharge: "Total Charge",
       totalEnergyAmount: "Total Energy Amount",
-      meterSelectPlaceholder: "Select customer or BPDB",
+      meterSelectPlaceholder: "Select meter owner",
+      tariffSelectPlaceholder: "Select tariff",
     },
   },
 }

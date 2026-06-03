@@ -96,3 +96,12 @@
 html[lang="bn"] {
   font-family: "NotoSansBengali", "SolaimanLipi", sans-serif !important;
 }
+
+@keyframes tariff-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
